@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { sanityLoader } from "@/sanity/lib/image";
 import { StrataPlaceholder } from "./StrataPlaceholder";
