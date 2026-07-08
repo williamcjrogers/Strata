@@ -11,6 +11,8 @@ import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
 import { QuoteBlock } from "@/components/ui/QuoteBlock";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 import { sanityFetch } from "@/sanity/lib/live";
 import { projectBySlugQuery, projectSlugsQuery } from "@/sanity/queries/projects";
@@ -97,6 +99,13 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Projects", path: "/projects" },
+          { name: project.title ?? "", path: `/projects/${project.slug}` },
+        ])}
+      />
       <StrataHero
         compact
         eyebrow={project.sectors?.[0]?.title ?? "Projects"}

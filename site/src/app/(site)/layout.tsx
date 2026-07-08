@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -23,6 +24,7 @@ export default async function SiteLayout({
       <SiteFooter />
       <SanityLive />
       {isDraftMode ? <VisualEditing /> : null}
+      <Analytics />
     </SmoothScrollProvider>
   );
 }

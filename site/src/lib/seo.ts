@@ -29,7 +29,7 @@ export function buildMetadata({
       title: resolvedTitle,
       description: resolvedDescription,
       type: "website",
-      ...(seo?.ogImage ? { images: [{ url: seo.ogImage }] } : {}),
+      images: [{ url: seo?.ogImage ?? "/og-default.png", width: 1200, height: 630 }],
     },
     ...(seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
   };

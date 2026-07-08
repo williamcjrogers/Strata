@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { StrataHero } from "@/components/motion/StrataHero";
 import { SectionRenderer } from "@/components/sections/SectionRenderer";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationJsonLd } from "@/lib/jsonld";
 import { resolveLink } from "@/lib/links";
 import { buildMetadata } from "@/lib/seo";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -33,6 +35,13 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd
+        data={organizationJsonLd({
+          description: settings?.description,
+          linkedinUrl: settings?.contact?.linkedinUrl,
+          email: settings?.contact?.email,
+        })}
+      />
       <StrataHero
         eyebrow={page.hero?.eyebrow}
         title={page.hero?.heading ?? page.title ?? "Strata Cost Consulting"}

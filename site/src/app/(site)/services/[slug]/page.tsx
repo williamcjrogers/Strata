@@ -9,6 +9,8 @@ import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
 import { QuoteBlock } from "@/components/ui/QuoteBlock";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/jsonld";
 import { resolveLink } from "@/lib/links";
 import { buildMetadata } from "@/lib/seo";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -52,6 +54,16 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
   return (
     <>
+      <JsonLd
+        data={[
+          serviceJsonLd(service),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+            { name: service.title ?? "", path: `/services/${service.slug}` },
+          ]),
+        ]}
+      />
       <StrataHero
         compact
         eyebrow="Services"

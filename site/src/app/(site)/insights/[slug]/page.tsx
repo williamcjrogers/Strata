@@ -8,6 +8,8 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { articleJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 import { sanityFetch } from "@/sanity/lib/live";
 import { articleBySlugQuery, articleSlugsQuery } from "@/sanity/queries/articles";
@@ -50,6 +52,25 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
 
   return (
     <>
+      <JsonLd
+        data={[
+          articleJsonLd({
+            title: article.title,
+            excerpt: article.excerpt,
+            slug: article.slug,
+            publishedAt: article.publishedAt,
+            updatedAt: article._updatedAt,
+            authorName: article.author?.name,
+            authorSlug: article.author?.slug,
+            image: article.heroImage?.asset?.url,
+          }),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Insights", path: "/insights" },
+            { name: article.title ?? "", path: `/insights/${article.slug}` },
+          ]),
+        ]}
+      />
       <StrataHero
         compact
         eyebrow={[article.topics?.[0]?.title ?? "Insight", formatDate(article.publishedAt)]

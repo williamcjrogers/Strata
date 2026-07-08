@@ -9,6 +9,8 @@ import { CTASection } from "@/components/sections/CTASection";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, personJsonLd } from "@/lib/jsonld";
 import { hrefForDoc } from "@/lib/links";
 import { buildMetadata } from "@/lib/seo";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -49,6 +51,16 @@ export default async function PersonPage({ params }: PageProps<"/people/[slug]">
 
   return (
     <>
+      <JsonLd
+        data={[
+          personJsonLd(person),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "People", path: "/people" },
+            { name: person.name ?? "", path: `/people/${person.slug}` },
+          ]),
+        ]}
+      />
       <StrataHero
         compact
         eyebrow={person.role}
