@@ -15,15 +15,21 @@ export function SiteHeader() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
+    const id = requestAnimationFrame(onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   // pages with a dark hero mark it with data-dark-hero; the header stays
   // transparent over those and goes solid everywhere else
   useEffect(() => {
-    setOverDark(document.querySelector("[data-dark-hero]") !== null);
+    const id = requestAnimationFrame(() => {
+      setOverDark(document.querySelector("[data-dark-hero]") !== null);
+    });
+    return () => cancelAnimationFrame(id);
   }, [pathname]);
 
   return (

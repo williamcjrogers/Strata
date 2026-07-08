@@ -4,7 +4,6 @@ export function JsonLd({ data }: { data: object | object[] }) {
     <>
       {items.map((item, i) => (
         <script
-          // eslint-disable-next-line react/no-array-index-key
           key={i}
           type="application/ld+json"
           // escape < to prevent script-context injection from CMS strings

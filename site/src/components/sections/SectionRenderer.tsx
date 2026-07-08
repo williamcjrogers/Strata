@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArticleCard } from "@/components/cards/ArticleCard";
 import { PersonCard } from "@/components/cards/PersonCard";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { SanityImage } from "@/components/media/SanityImage";

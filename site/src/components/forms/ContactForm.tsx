@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { submitEnquiry } from "@/app/(site)/contact/actions";
 import { ENQUIRY_TYPES, type EnquiryState } from "@/lib/enquiry";
 
@@ -42,7 +42,12 @@ function Field({
 
 export function ContactForm() {
   const [state, formAction, pending] = useActionState(submitEnquiry, initialState);
-  const startedAt = useMemo(() => Date.now(), []);
+  // time-trap timestamp; 0 for no-JS visitors, who are covered by the honeypot
+  const [startedAt, setStartedAt] = useState(0);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setStartedAt(Date.now()));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   if (state.status === "success") {
     return (
@@ -175,12 +180,7 @@ export function ContactForm() {
         <label htmlFor="website">Website</label>
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
-      <input
-        type="hidden"
-        name="startedAt"
-        value={startedAt}
-        suppressHydrationWarning
-      />
+      <input type="hidden" name="startedAt" value={startedAt} />
 
       <button
         type="submit"
