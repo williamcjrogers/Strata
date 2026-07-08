@@ -108,7 +108,7 @@ export function CredentialsBand({
             return (
               <div key={label} data-stat className="border-t-2 border-strata-500 pt-5">
                 <dt className="sr-only">{label}</dt>
-                <dd className="font-display text-5xl font-bold tabular-nums leading-none">
+                <dd className="whitespace-nowrap font-display text-5xl font-bold tabular-nums leading-none">
                   {num === null ? (
                     value
                   ) : (

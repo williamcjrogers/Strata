@@ -1,43 +1,45 @@
-import { Button } from "@/components/ui/Button";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { heroWaves, waveFillsDark } from "@/components/waves/paths";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { StrataHero } from "@/components/motion/StrataHero";
+import { SectionRenderer } from "@/components/sections/SectionRenderer";
+import { resolveLink } from "@/lib/links";
+import { buildMetadata } from "@/lib/seo";
+import { sanityFetch } from "@/sanity/lib/live";
+import { pageBySlugQuery } from "@/sanity/queries/pages";
+import { settingsQuery } from "@/sanity/queries/settings";
 
-/*
-  Temporary composed home placeholder.
-  Replaced by the Sanity-driven page at build step 9.
-*/
-export default function HomePage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const { data: page } = await sanityFetch({
+    query: pageBySlugQuery,
+    params: { slug: "home" },
+    stega: false,
+  });
+  return buildMetadata({
+    title: page?.seo?.metaTitle ?? undefined,
+    description: page?.hero?.lede,
+    seo: page?.seo,
+    path: "/",
+  });
+}
+
+export default async function HomePage() {
+  const [{ data: page }, { data: settings }] = await Promise.all([
+    sanityFetch({ query: pageBySlugQuery, params: { slug: "home" } }),
+    sanityFetch({ query: settingsQuery }),
+  ]);
+  if (!page) notFound();
+
+  const cta = resolveLink(page.hero?.cta ?? null);
+
   return (
-    <section
-      data-dark-hero
-      className="relative flex min-h-[80vh] flex-col justify-center overflow-clip bg-anchor pb-32 pt-40 text-paper"
-    >
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 1440 480"
-        preserveAspectRatio="none"
-        className="absolute inset-x-0 bottom-0 h-[55%] w-full"
-      >
-        {heroWaves.map((d, i) => (
-          <path key={d} d={d} fill={waveFillsDark[i]} />
-        ))}
-      </svg>
-
-      <div className="relative mx-auto w-full max-w-7xl px-gutter">
-        <Eyebrow tone="dark">Strata Cost Consulting</Eyebrow>
-        <h1 className="type-display mt-6 max-w-4xl">
-          Commercial clarity, layer by layer
-        </h1>
-        <p className="mt-6 max-w-xl text-lg text-strata-100">
-          Commercial and cost consultancy built on trust, technical excellence
-          and long term partnership.
-        </p>
-        <div className="mt-10">
-          <Button href="/contact" tone="dark">
-            Start a conversation
-          </Button>
-        </div>
-      </div>
-    </section>
+    <>
+      <StrataHero
+        eyebrow={page.hero?.eyebrow}
+        title={page.hero?.heading ?? page.title ?? "Strata Cost Consulting"}
+        lede={page.hero?.lede}
+        cta={cta}
+      />
+      <SectionRenderer sections={page.sections} settings={settings} />
+    </>
   );
 }
