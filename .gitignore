@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+
+# env
+.env
+.env*.local
+
+# sanity
+.sanity/
+site/schema.json
+dist/
+
+# build artefacts
+*.tsbuildinfo
+
+# misc
+.DS_Store
+Thumbs.db
