@@ -111,15 +111,13 @@ const X = {
 };
 
 const P = {
-  whitfield: "person-james-whitfield",
-  pemberton: "person-sarah-pemberton",
-  okafor: "person-david-okafor",
-  clarke: "person-emma-clarke",
-  reid: "person-thomas-reid",
+  ellison: "person-sean-ellison",
+  miller: "person-dean-miller",
+  bettis: "person-paul-bettis",
 };
 
 const PLACEHOLDER_BIO_NOTE =
-  "Placeholder profile: replace with the appointed team member's biography and photograph before launch.";
+  "Full biography, qualifications and photograph to follow; copy above is provisional and awaiting approval.";
 
 /* ---------- asset upload (idempotent) ---------- */
 
@@ -352,9 +350,9 @@ async function run() {
     featuredProjects: [ref("project-decent-homes-claims", "fp1"), ref("project-final-account-dispute", "fp2")],
     quote: quoteOf(
       "A claim that cannot survive cross examination is not an asset, it is a liability. We build every submission as if it will end up in front of a tribunal, which is precisely why most of them never do.",
-      "Sarah Pemberton",
-      "Director, Claims",
-      P.pemberton,
+      "Dean Miller",
+      "Director",
+      P.miller,
     ),
     cta: {
       _type: "cta",
@@ -529,9 +527,9 @@ async function run() {
     featuredProjects: [ref("project-decent-homes-claims", "fp1")],
     quote: quoteOf(
       "The housing teams know us from delivery, and the claims world knows us from disputes. Sitting in both camps is exactly why clients bring us the difficult ones.",
-      "James Whitfield",
+      "Sean Ellison",
       "Managing Director",
-      P.whitfield,
+      P.ellison,
     ),
     cta: {
       _type: "cta",
@@ -923,78 +921,41 @@ async function run() {
 
   const people = [
     {
-      _id: P.whitfield,
-      name: "James Whitfield",
-      slugStr: "james-whitfield",
+      _id: P.ellison,
+      name: "Sean Ellison",
+      slugStr: "sean-ellison",
       role: "Managing Director",
-      qualifications: "BSc (Hons) MRICS",
       isSenior: true,
       order: 1,
-      specialisms: [S.claims, X.socialHousing, X.socialHousingClaims],
       bio: pt(
-        "pw",
-        "James leads Strata Cost Consulting. His career spans client side and contractor side commercial leadership across social housing, infrastructure and development, with particular depth in claims and dispute resolution.",
-        "He founded Strata on a simple promise: senior people doing the work, not just winning it.",
+        "se",
+        "Sean leads Strata Cost Consulting as Managing Director.",
         PLACEHOLDER_BIO_NOTE,
       ),
     },
     {
-      _id: P.pemberton,
-      name: "Sarah Pemberton",
-      slugStr: "sarah-pemberton",
-      role: "Director, Claims",
-      qualifications: "BSc (Hons) MRICS MCIArb",
+      _id: P.miller,
+      name: "Dean Miller",
+      slugStr: "dean-miller",
+      role: "Director",
       isSenior: true,
       order: 2,
-      specialisms: [S.claims, X.contracting],
       bio: pt(
-        "sp",
-        "Sarah leads the claims practice. She has prepared and defended extension of time, loss and expense and final account disputes across two decades, including adjudication and arbitration support to legal pleading standard.",
+        "dm",
+        "Dean is a Director of Strata Cost Consulting.",
         PLACEHOLDER_BIO_NOTE,
       ),
     },
     {
-      _id: P.okafor,
-      name: "David Okafor",
-      slugStr: "david-okafor",
-      role: "Associate Director, Infrastructure",
-      qualifications: "BSc (Hons) MRICS",
-      isSenior: false,
+      _id: P.bettis,
+      name: "Paul Bettis",
+      slugStr: "paul-bettis",
+      role: "Director",
+      isSenior: true,
       order: 3,
-      specialisms: [S.postContract, X.infrastructure],
       bio: pt(
-        "do",
-        "David runs the infrastructure commercial team, including the long standing Manchester Airport Group programme. He specialises in commercial delivery within live operational environments.",
-        PLACEHOLDER_BIO_NOTE,
-      ),
-    },
-    {
-      _id: P.clarke,
-      name: "Emma Clarke",
-      slugStr: "emma-clarke",
-      role: "Senior Quantity Surveyor",
-      qualifications: "BSc (Hons)",
-      isSenior: false,
-      order: 4,
-      specialisms: [S.postContract, X.socialHousing],
-      bio: pt(
-        "ec",
-        "Emma delivers post contract commercial management across social housing programmes, with a focus on valuations, change control and cost reporting that clients can act on.",
-        PLACEHOLDER_BIO_NOTE,
-      ),
-    },
-    {
-      _id: P.reid,
-      name: "Thomas Reid",
-      slugStr: "thomas-reid",
-      role: "Quantity Surveyor, Bank Monitoring",
-      qualifications: "BSc (Hons)",
-      isSenior: false,
-      order: 5,
-      specialisms: [S.bankMonitoring, X.bankMonitoring],
-      bio: pt(
-        "tr",
-        "Thomas works in the bank monitoring team, producing due diligence and drawdown reports across the lender portfolio under senior review.",
+        "pb",
+        "Paul is a Director of Strata Cost Consulting.",
         PLACEHOLDER_BIO_NOTE,
       ),
     },
@@ -1007,10 +968,8 @@ async function run() {
       name: person.name,
       slug: slug(person.slugStr),
       role: person.role,
-      qualifications: person.qualifications,
       headshot,
       bio: person.bio,
-      specialisms: person.specialisms.map((id, i) => ref(id, `sp${i}`)),
       isSenior: person.isSenior,
       order: person.order,
     });
@@ -1025,7 +984,7 @@ async function run() {
       slugStr: "qs-shortage-programme-risk",
       excerpt:
         "Half of UK projects were impacted by a lack of QS support in 2025. Treating commercial resourcing as a programme risk, not an HR problem, changes the response.",
-      author: P.whitfield,
+      author: P.ellison,
       publishedAt: "2026-06-15T09:00:00Z",
       topics: [S.postContract, X.socialHousing],
       body: pt(
@@ -1045,7 +1004,7 @@ async function run() {
       slugStr: "london-affordable-homes-funding-delivery",
       excerpt:
         "The London Social and Affordable Homes Programme runs from 2026 to 2036. The constraint will not be money; it will be people and programmes.",
-      author: P.whitfield,
+      author: P.ellison,
       publishedAt: "2026-05-12T09:00:00Z",
       topics: [X.socialHousing, S.preContract],
       body: pt(
@@ -1063,7 +1022,7 @@ async function run() {
       slugStr: "bank-monitoring-32bn-market",
       excerpt:
         "Outstanding UK development loans are at a long term high. Lenders are consolidating monitoring panels and demanding portfolio consistency; here is what good looks like.",
-      author: P.pemberton,
+      author: P.bettis,
       publishedAt: "2026-04-14T09:00:00Z",
       topics: [S.bankMonitoring, X.bankMonitoring],
       body: pt(
@@ -1081,7 +1040,7 @@ async function run() {
       slugStr: "claims-readiness-live-projects",
       excerpt:
         "The best claims are the ones you never need to submit. Claims readiness is a records discipline that starts on day one, not a document produced at the end.",
-      author: P.pemberton,
+      author: P.bettis,
       publishedAt: "2026-03-10T09:00:00Z",
       topics: [S.claims, X.contracting],
       body: pt(
@@ -1184,9 +1143,9 @@ async function run() {
         _key: "hm5",
         quote: quoteOf(
           "Every commission has director level involvement from day one. That is not a marketing line; it is the operating model.",
-          "James Whitfield",
+          "Sean Ellison",
           "Managing Director",
-          P.whitfield,
+          P.ellison,
         ),
       },
       {
@@ -1249,9 +1208,9 @@ async function run() {
         _key: "ab3",
         quote: quoteOf(
           "We founded Strata on the belief that clients notice the difference when senior people do the work rather than just win it.",
-          "James Whitfield",
+          "Sean Ellison",
           "Managing Director",
-          P.whitfield,
+          P.ellison,
         ),
       },
       {
@@ -1423,9 +1382,9 @@ async function run() {
         _key: "ca2",
         quote: quoteOf(
           "The people we hire are the growth plan. There is no version of Strata's success that does not run through them.",
-          "James Whitfield",
+          "Sean Ellison",
           "Managing Director",
-          P.whitfield,
+          P.ellison,
         ),
       },
       {
