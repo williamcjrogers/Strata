@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectCard } from "@/components/cards/ProjectCard";
+import { SectionReveal } from "@/components/motion/SectionReveal";
 import { StrataHero } from "@/components/motion/StrataHero";
 import { Container } from "@/components/ui/Container";
 import { projectsFilterHref } from "@/lib/routes";
@@ -79,7 +80,7 @@ export default async function ProjectsPage({ searchParams }: PageProps<"/project
         lede={page.hero?.lede}
       />
 
-      <section className="py-section-sm">
+      <SectionReveal className="py-section-sm">
         <Container>
           <div className="space-y-5 border-b border-line pb-8">
             <div className="flex flex-wrap items-center gap-2">
@@ -153,7 +154,7 @@ export default async function ProjectsPage({ searchParams }: PageProps<"/project
             </div>
           )}
         </Container>
-      </section>
+      </SectionReveal>
     </>
   );
 }

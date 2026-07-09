@@ -81,6 +81,10 @@
   /* ---- motion ---- */
   --ease-out-soft: cubic-bezier(0.25, 1, 0.35, 1);
   --ease-in-out-strata: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 0.3s;
+  --dur-base: 0.6s;
+  --dur-slow: 0.9s;
+  --dur-hero: 1.2s;
 
   /* ---- media aspect ratios ---- */
   --aspect-card: 3 / 2;
@@ -99,6 +103,12 @@
   html {
     /* keep anchor targets clear of the fixed header */
     scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
@@ -201,6 +211,76 @@
       animation: none;
     }
   }
+
+  /*
+    Motion vocabulary. Everything lives inside the no-preference media
+    query so a pre-animation state only ever exists together with the
+    animation that resolves it: no-JS, SSR and reduced-motion visitors
+    always see the composed page.
+  */
+  @media (prefers-reduced-motion: no-preference) {
+    /* -- hero strata bands: settle in from below, pure CSS, first paint -- */
+    .hero-band {
+      animation: band-settle var(--dur-hero) var(--ease-out-soft) both;
+      animation-delay: calc(var(--band-index, 0) * 0.12s);
+    }
+
+    /* idle drift joins after the settle on desktop only */
+    @media (min-width: 64rem) {
+      .hero-band {
+        animation:
+          band-settle var(--dur-hero) var(--ease-out-soft) both,
+          band-drift calc(7s + var(--band-index, 0) * 1.5s) ease-in-out
+            calc(var(--dur-hero) + var(--band-index, 0) * 0.12s) infinite
+            alternate;
+      }
+    }
+
+    /* -- hero headline: words rise through inline masks -- */
+    .hero-word-mask {
+      display: inline-block;
+      overflow: clip;
+      /* uppercase display face: small pad guards Q/J descender tails */
+      padding-block-end: 0.06em;
+      margin-block-end: -0.06em;
+    }
+
+    .hero-word {
+      display: inline-block;
+      animation: rise-in var(--dur-slow) var(--ease-out-soft) both;
+      animation-delay: calc(0.3s + var(--word-index, 0) * 0.07s);
+    }
+
+    .hero-item {
+      animation: fade-up var(--dur-base) var(--ease-out-soft) both;
+      animation-delay: calc(0.65s + var(--item-index, 0) * 0.1s);
+    }
+
+    /*
+      Scroll reveals. The hidden state is applied only after JS confirms
+      motion is allowed (adds .reveal-ready); the shared observer adds
+      .is-inview. Animation-based rather than transition-based so
+      Tailwind transition-* utilities on the same element cannot
+      override the reveal.
+    */
+    .reveal-ready:not(.is-inview) [data-reveal] {
+      opacity: 0;
+    }
+
+    .reveal-ready.is-inview [data-reveal] {
+      animation: fade-up-lg var(--dur-slow) var(--ease-out-soft) both;
+      animation-delay: calc(var(--reveal-index, 0) * var(--reveal-stagger, 0.08s));
+    }
+
+    /* -- scroll-scrubbed parallax; browsers without scroll-driven
+          animations (Firefox) render the media static at full cover -- */
+    @supports (animation-timeline: view()) {
+      .parallax-inner {
+        animation: parallax-shift linear both;
+        animation-timeline: view();
+      }
+    }
+  }
 }
 
 @keyframes overlay-item-in {
@@ -211,5 +291,58 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+/* explicit `to` keeps the resolved end state independent of the
+   .reveal-ready hidden rule flipping off mid-animation */
+@keyframes fade-up-lg {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(115%);
+  }
+}
+
+/* var() inside keyframes resolves per animated element: one keyframe
+   serves every band and parallax strength */
+@keyframes band-settle {
+  from {
+    opacity: 0;
+    transform: translateY(calc(70px + var(--band-index, 0) * 35px));
+  }
+}
+
+@keyframes band-drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(4px + var(--band-index, 0) * 2px));
+  }
+}
+
+@keyframes parallax-shift {
+  from {
+    transform: translateY(calc(var(--parallax-strength, 8) * -1%));
+  }
+  to {
+    transform: translateY(calc(var(--parallax-strength, 8) * 1%));
   }
 }

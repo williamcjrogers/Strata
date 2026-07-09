@@ -1,20 +1,27 @@
 "use client";
 
-import { useRef, type ElementType, type ReactNode } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
-import { DUR, EASE, MM_MOTION, STAGGER } from "@/lib/motion";
+import {
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type ElementType,
+  type ReactNode,
+} from "react";
+import { observeInViewOnce } from "@/lib/in-view";
+import { MM_MOTION } from "@/lib/motion";
 
 /*
   Layered "geological" reveal: children marked with data-reveal arrive
-  bottom-up as the section enters the viewport. Transform and opacity
-  only; the trigger fires once and disposes of itself. Without JS or
-  with reduced motion the content simply sits in its final state.
+  bottom-up as the section enters the viewport, staggered in DOM order.
+  The hidden state (.reveal-ready) and the trigger are created in the
+  same effect, so content can never be stuck hidden. Without JS or with
+  reduced motion the content simply sits in its final state.
 */
 export function SectionReveal({
   children,
   as: Tag = "section",
   className,
-  stagger = STAGGER,
+  stagger = 0.08,
 }: {
   children: ReactNode;
   as?: ElementType;
@@ -23,31 +30,22 @@ export function SectionReveal({
 }) {
   const scope = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MM_MOTION, () => {
-        const targets = scope.current?.querySelectorAll("[data-reveal]");
-        if (!targets || targets.length === 0) return;
-        gsap.from(targets, {
-          y: 48,
-          autoAlpha: 0,
-          duration: DUR.slow,
-          ease: EASE.out,
-          stagger,
-          scrollTrigger: {
-            trigger: scope.current,
-            start: "top 80%",
-            once: true,
-          },
-        });
-      });
-    },
-    { scope },
-  );
+  useEffect(() => {
+    const root = scope.current;
+    if (!root || !window.matchMedia(MM_MOTION).matches) return;
+    const targets = root.querySelectorAll<HTMLElement>("[data-reveal]");
+    if (targets.length === 0) return;
+    targets.forEach((el, i) => el.style.setProperty("--reveal-index", String(i)));
+    root.classList.add("reveal-ready");
+    return observeInViewOnce(root, () => root.classList.add("is-inview"));
+  }, []);
 
   return (
-    <Tag ref={scope} className={className}>
+    <Tag
+      ref={scope}
+      className={className}
+      style={{ "--reveal-stagger": `${stagger}s` } as CSSProperties}
+    >
       {children}
     </Tag>
   );

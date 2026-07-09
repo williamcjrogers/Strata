@@ -4,7 +4,6 @@ import { draftMode } from "next/headers";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SkipLink } from "@/components/layout/SkipLink";
-import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { SanityLive } from "@/sanity/lib/live";
 
 export default async function SiteLayout({
@@ -15,7 +14,7 @@ export default async function SiteLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <SmoothScrollProvider>
+    <>
       <SkipLink />
       <SiteHeader />
       <main id="main" className="flex-1">
@@ -25,6 +24,6 @@ export default async function SiteLayout({
       <SanityLive />
       {isDraftMode ? <VisualEditing /> : null}
       <Analytics />
-    </SmoothScrollProvider>
+    </>
   );
 }
