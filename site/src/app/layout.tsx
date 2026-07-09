@@ -29,7 +29,11 @@ export default function RootLayout({
       lang="en-GB"
       className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      {/* suppressHydrationWarning: browser extensions (e.g. Kapture) inject
+          body classes before hydration; attribute-only, children unaffected */}
+      <body suppressHydrationWarning className="flex min-h-full flex-col">
+        {children}
+      </body>
     </html>
   );
 }
