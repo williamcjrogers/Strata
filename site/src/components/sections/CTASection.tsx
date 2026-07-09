@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MetricChip } from "@/components/artefacts/MetricChip";
 import { heroWaves } from "@/components/waves/paths";
 
 const ctaWaveFills = [
@@ -35,16 +36,9 @@ export function CTASection({
       <div className="relative mx-auto w-full max-w-7xl px-gutter">
         {chips.length > 0 ? (
           <ul className="mb-8 flex flex-wrap gap-3">
-            {chips.map((chip) => (
-              <li
-                key={chip}
-                className="flex items-center gap-2 border border-strata-600 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-strata-200"
-              >
-                <span
-                  aria-hidden="true"
-                  className="inline-block h-1.5 w-1.5 rounded-full bg-strata-400"
-                />
-                {chip}
+            {chips.map((chip, i) => (
+              <li key={chip}>
+                <MetricChip label={chip} pulse={i === 0} />
               </li>
             ))}
           </ul>

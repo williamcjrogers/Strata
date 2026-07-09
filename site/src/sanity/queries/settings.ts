@@ -12,6 +12,7 @@ export const settingsQuery = defineQuery(`
       addressLines,
       linkedinUrl
     },
+    standardsLine,
     credentialsStats[]{
       value,
       label,

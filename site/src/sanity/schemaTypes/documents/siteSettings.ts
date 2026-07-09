@@ -47,6 +47,13 @@ export const siteSettings = defineType({
       ],
     }),
     defineField({
+      name: "standardsLine",
+      title: "Professional standards line",
+      type: "string",
+      description:
+        "Optional footer line for professional-body affiliations (e.g. RICS). Leave empty until the firm's regulatory status is confirmed.",
+    }),
+    defineField({
       name: "credentialsStats",
       title: "Credentials statistics",
       type: "array",

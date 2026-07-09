@@ -553,6 +553,7 @@ export type SiteSettings = {
     addressLines?: Array<string>;
     linkedinUrl?: string;
   };
+  standardsLine?: string;
   credentialsStats?: Array<
     {
       _key: string;
@@ -1652,7 +1653,7 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: src/sanity/queries/settings.ts
 // Variable: settingsQuery
-// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    siteTitle,    shortName,    tagline,    description,    contact{      email,      phone,      addressLines,      linkedinUrl    },    credentialsStats[]{      value,      label,      source,      sourceUrl    },    defaultSeo{      metaTitle,      metaDescription,      "ogImage": ogImage.asset->url    }  }
+// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    siteTitle,    shortName,    tagline,    description,    contact{      email,      phone,      addressLines,      linkedinUrl    },    standardsLine,    credentialsStats[]{      value,      label,      source,      sourceUrl    },    defaultSeo{      metaTitle,      metaDescription,      "ogImage": ogImage.asset->url    }  }
 export type SettingsQueryResult = {
   siteTitle: string | null;
   shortName: string | null;
@@ -1664,6 +1665,7 @@ export type SettingsQueryResult = {
     addressLines: Array<string> | null;
     linkedinUrl: string | null;
   } | null;
+  standardsLine: string | null;
   credentialsStats: Array<{
     value: string | null;
     label: string | null;
@@ -1731,7 +1733,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "service"] | order(order asc){\n    _id,\n    title,\n    "slug": slug.current,\n    order,\n    strapline,\n    summary,\n    engagementModel\n  }\n': ServicesIndexQueryResult;
     '\n  *[_type == "service" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    order,\n    strapline,\n    summary,\n    heroImage{\n      "alt": alt,\n      asset->{_id, url, metadata{lqip, dimensions}}\n    },\n    intro,\n    engagementModel,\n    deliverables[]{_key, title, description},\n    "sectors": *[_type == "sector" && references(^._id)] | order(order asc){\n      _id,\n      title,\n      "slug": slug.current,\n      "offerings": serviceOfferings[]{"serviceId": service._ref, summary}\n    },\n    featuredProjects[]->{\n      _id,\n      title,\n      "slug": slug.current,\n      client,\n      location,\n      value,\n      summary,\n      heroImage{\n        "alt": alt,\n        asset->{_id, url, metadata{lqip, dimensions}}\n      },\n      "sectors": sectors[]->{title, "slug": slug.current}\n    },\n    quote{\n      text,\n      attributionName,\n      attributionRole,\n      person->{name, "slug": slug.current}\n    },\n    cta{\n      heading,\n      text,\n      statusChips,\n      link{\n        label,\n        linkType,\n        external,\n        internal->{_type, "slug": slug.current}\n      }\n    },\n    seo{metaTitle, metaDescription, "ogImage": ogImage.asset->url, noIndex}\n  }\n': ServiceBySlugQueryResult;
     '\n  *[_type == "service" && defined(slug.current)]{"slug": slug.current}\n': ServiceSlugsQueryResult;
-    '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    siteTitle,\n    shortName,\n    tagline,\n    description,\n    contact{\n      email,\n      phone,\n      addressLines,\n      linkedinUrl\n    },\n    credentialsStats[]{\n      value,\n      label,\n      source,\n      sourceUrl\n    },\n    defaultSeo{\n      metaTitle,\n      metaDescription,\n      "ogImage": ogImage.asset->url\n    }\n  }\n': SettingsQueryResult;
+    '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    siteTitle,\n    shortName,\n    tagline,\n    description,\n    contact{\n      email,\n      phone,\n      addressLines,\n      linkedinUrl\n    },\n    standardsLine,\n    credentialsStats[]{\n      value,\n      label,\n      source,\n      sourceUrl\n    },\n    defaultSeo{\n      metaTitle,\n      metaDescription,\n      "ogImage": ogImage.asset->url\n    }\n  }\n': SettingsQueryResult;
     '\n  {\n    "pages": *[_type == "page" && defined(slug.current) && seo.noIndex != true]{\n      "slug": slug.current, _updatedAt\n    },\n    "services": *[_type == "service" && defined(slug.current)]{\n      "slug": slug.current, _updatedAt\n    },\n    "sectors": *[_type == "sector" && defined(slug.current)]{\n      "slug": slug.current, _updatedAt\n    },\n    "projects": *[_type == "project" && defined(slug.current)]{\n      "slug": slug.current, _updatedAt\n    },\n    "people": *[_type == "person" && defined(slug.current)]{\n      "slug": slug.current, _updatedAt\n    },\n    "articles": *[_type == "article" && defined(slug.current)]{\n      "slug": slug.current, _updatedAt\n    }\n  }\n': SitemapQueryResult;
   }
 }

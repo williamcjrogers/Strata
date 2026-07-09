@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { heroWaves } from "@/components/waves/paths";
 import { contactCta, primaryNav } from "@/lib/routes";
+import { sanityFetch } from "@/sanity/lib/live";
+import { settingsQuery } from "@/sanity/queries/settings";
 
 const serviceLinks = [
   { label: "Pre-Contract", href: "/services/pre-contract" },
@@ -16,7 +18,12 @@ const footerWaveFills = [
   "var(--color-strata-900)",
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const { data: settings } = await sanityFetch({
+    query: settingsQuery,
+    stega: false,
+  });
+
   return (
     <footer className="bg-anchor text-paper">
       {/* strata transition from page ground into the footer */}
@@ -51,6 +58,11 @@ export function SiteFooter() {
               Commercial and cost consultancy built on trust, technical
               excellence and long term partnership.
             </p>
+            {settings?.standardsLine ? (
+              <p className="type-mono max-w-xs text-strata-300">
+                {settings.standardsLine}
+              </p>
+            ) : null}
           </div>
 
           <nav aria-label="Explore">
@@ -122,7 +134,10 @@ export function SiteFooter() {
         <div className="mt-14 flex flex-col gap-4 border-t border-strata-800 pt-6 text-xs text-strata-300 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} Strata Cost Consulting. All rights
-            reserved.
+            reserved.{" "}
+            <span aria-hidden="true" className="type-mono ml-2 text-strata-400">
+              {`SCC // ${new Date().getFullYear()} // UK`}
+            </span>
           </p>
           <div className="flex gap-6">
             <Link href="/privacy" className="transition-colors hover:text-white">

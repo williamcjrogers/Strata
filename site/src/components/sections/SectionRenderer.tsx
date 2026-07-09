@@ -39,11 +39,11 @@ function SectionHeader({
         {typeof index === "number" ? (
           <span
             aria-hidden="true"
-            className={`meta-line shrink-0 ${
+            className={`type-mono shrink-0 ${
               tone === "dark" ? "text-strata-400" : "text-strata-600"
             }`}
           >
-            / {String(index).padStart(2, "0")}
+            SEC.{String(index).padStart(2, "0")}
           </span>
         ) : null}
       </div>
