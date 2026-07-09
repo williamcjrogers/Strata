@@ -24,15 +24,29 @@ function SectionHeader({
   eyebrow,
   heading,
   tone = "light",
+  index,
 }: {
   eyebrow?: string | null;
   heading?: string | null;
   tone?: "light" | "dark";
+  index?: number;
 }) {
   if (!eyebrow && !heading) return null;
   return (
     <header className="max-w-3xl" data-reveal>
-      {eyebrow ? <Eyebrow tone={tone}>{eyebrow}</Eyebrow> : null}
+      <div className="flex items-baseline justify-between gap-6">
+        {eyebrow ? <Eyebrow tone={tone}>{eyebrow}</Eyebrow> : <span />}
+        {typeof index === "number" ? (
+          <span
+            aria-hidden="true"
+            className={`meta-line shrink-0 ${
+              tone === "dark" ? "text-strata-400" : "text-strata-600"
+            }`}
+          >
+            / {String(index).padStart(2, "0")}
+          </span>
+        ) : null}
+      </div>
       {heading ? (
         <h2
           className={`type-h2 mt-4 ${tone === "dark" ? "text-paper" : "text-strata-900"}`}
@@ -47,16 +61,22 @@ function SectionHeader({
 async function RenderSection({
   section,
   settings,
+  index,
 }: {
   section: Section;
   settings: SettingsQueryResult;
+  index?: number;
 }) {
   switch (section._type) {
     case "richTextSection":
       return (
         <SectionReveal className="py-section">
           <Container>
-            <SectionHeader eyebrow={section.eyebrow} heading={section.heading} />
+            <SectionHeader
+              eyebrow={section.eyebrow}
+              heading={section.heading}
+              index={index}
+            />
             <div className="mt-10" data-reveal>
               <Prose value={section.content} />
             </div>
@@ -83,14 +103,64 @@ async function RenderSection({
     case "ctaBand": {
       const link = resolveLink(section.cta?.link ?? null);
       if (!section.cta?.heading || !link) return null;
-      return <CTASection heading={section.cta.heading} text={section.cta.text} link={link} />;
+      return (
+        <CTASection
+          heading={section.cta.heading}
+          text={section.cta.text}
+          link={link}
+          statusChips={section.cta.statusChips}
+        />
+      );
     }
+
+    case "processSection":
+      return (
+        <SectionReveal className="bg-strata-950 py-section text-paper">
+          <Container>
+            <SectionHeader
+              eyebrow={section.eyebrow}
+              heading={section.heading}
+              tone="dark"
+              index={index}
+            />
+            {section.intro ? (
+              <p data-reveal className="mt-5 max-w-2xl text-base text-strata-200">
+                {section.intro}
+              </p>
+            ) : null}
+            <ol className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              {(section.steps ?? []).map((step, i) => (
+                <li
+                  key={step._key}
+                  data-reveal
+                  className="border-t-2 border-strata-500 pt-5"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="font-display text-4xl font-bold text-strata-500"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="type-h3 mt-4 text-paper">{step.title}</h3>
+                  {step.description ? (
+                    <p className="mt-3 text-sm text-strata-300">{step.description}</p>
+                  ) : null}
+                </li>
+              ))}
+            </ol>
+          </Container>
+        </SectionReveal>
+      );
 
     case "featureGrid":
       return (
         <SectionReveal className="py-section">
           <Container>
-            <SectionHeader eyebrow={section.eyebrow} heading={section.heading} />
+            <SectionHeader
+              eyebrow={section.eyebrow}
+              heading={section.heading}
+              index={index}
+            />
             <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
               {(section.items ?? []).map((item) => {
                 const link = resolveLink(item.link ?? null);
@@ -131,7 +201,11 @@ async function RenderSection({
         <SectionReveal className="bg-mist py-section">
           <Container>
             <div className="flex flex-wrap items-end justify-between gap-6">
-              <SectionHeader eyebrow={section.eyebrow} heading={section.heading} />
+              <SectionHeader
+                eyebrow={section.eyebrow}
+                heading={section.heading}
+                index={index}
+              />
               <Link
                 data-reveal
                 href="/projects"
@@ -160,7 +234,11 @@ async function RenderSection({
       return (
         <SectionReveal className="py-section">
           <Container>
-            <SectionHeader eyebrow={section.eyebrow} heading={section.heading} />
+            <SectionHeader
+              eyebrow={section.eyebrow}
+              heading={section.heading}
+              index={index}
+            />
             <div className="mt-12 grid gap-x-8 gap-y-12 grid-cols-2 lg:grid-cols-4">
               {people.map((person) => (
                 <PersonCard key={person._id} person={person} />
@@ -177,7 +255,11 @@ async function RenderSection({
       return (
         <SectionReveal className="py-section">
           <Container>
-            <SectionHeader eyebrow={section.eyebrow} heading={section.heading} />
+            <SectionHeader
+              eyebrow={section.eyebrow}
+              heading={section.heading}
+              index={index}
+            />
             {section.intro ? (
               <p data-reveal className="mt-5 max-w-2xl text-base text-strata-700">
                 {section.intro}
@@ -222,6 +304,16 @@ async function RenderSection({
   }
 }
 
+/* Sections with a heading get a sequential drafting-style number (/ 01). */
+const NUMBERED_TYPES = new Set([
+  "richTextSection",
+  "featureGrid",
+  "projectGrid",
+  "peopleGrid",
+  "serviceMatrix",
+  "processSection",
+]);
+
 export function SectionRenderer({
   sections,
   settings,
@@ -230,11 +322,24 @@ export function SectionRenderer({
   settings: SettingsQueryResult;
 }) {
   if (!sections || sections.length === 0) return null;
+  let counter = 0;
   return (
     <>
-      {sections.map((section) => (
-        <RenderSection key={section._key} section={section} settings={settings} />
-      ))}
+      {sections.map((section) => {
+        const numbered =
+          NUMBERED_TYPES.has(section._type) &&
+          "heading" in section &&
+          Boolean(section.heading);
+        const index = numbered ? ++counter : undefined;
+        return (
+          <RenderSection
+            key={section._key}
+            section={section}
+            settings={settings}
+            index={index}
+          />
+        );
+      })}
     </>
   );
 }

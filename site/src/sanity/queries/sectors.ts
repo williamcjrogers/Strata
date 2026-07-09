@@ -64,6 +64,7 @@ export const sectorBySlugQuery = defineQuery(`
     cta{
       heading,
       text,
+      statusChips,
       link{
         label,
         linkType,

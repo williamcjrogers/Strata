@@ -188,7 +188,12 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       <QuoteBlock quote={service.quote} variant="band" />
 
       {service.cta?.heading && cta ? (
-        <CTASection heading={service.cta.heading} text={service.cta.text} link={cta} />
+        <CTASection
+          heading={service.cta.heading}
+          text={service.cta.text}
+          link={cta}
+          statusChips={service.cta.statusChips}
+        />
       ) : null}
     </>
   );

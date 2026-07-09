@@ -114,19 +114,26 @@ export function CredentialsBand({
                   ) : (
                     <>
                       {prefix}
-                      <span
-                        data-stat-num
-                        data-target={num}
-                        data-decimals={decimals}
-                        className="inline-block text-left"
-                        style={{
-                          minWidth: `${num.toLocaleString("en-GB", { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).length}ch`,
-                        }}
-                      >
-                        {num.toLocaleString("en-GB", {
-                          minimumFractionDigits: decimals,
-                          maximumFractionDigits: decimals,
-                        })}
+                      {/* invisible sizer reserves the exact final width, so
+                          the count-up never shifts layout */}
+                      <span className="relative inline-block">
+                        <span aria-hidden="true" className="invisible">
+                          {num.toLocaleString("en-GB", {
+                            minimumFractionDigits: decimals,
+                            maximumFractionDigits: decimals,
+                          })}
+                        </span>
+                        <span
+                          data-stat-num
+                          data-target={num}
+                          data-decimals={decimals}
+                          className="absolute inset-y-0 right-0 text-right"
+                        >
+                          {num.toLocaleString("en-GB", {
+                            minimumFractionDigits: decimals,
+                            maximumFractionDigits: decimals,
+                          })}
+                        </span>
                       </span>
                       {suffix}
                     </>

@@ -23,5 +23,14 @@ export const cta = defineType({
       type: "link",
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: "statusChips",
+      title: "Status chips",
+      type: "array",
+      description:
+        'Short live-status signals, for example "Accepting instructions".',
+      of: [{ type: "string" }],
+      validation: (rule) => rule.max(3),
+    }),
   ],
 });

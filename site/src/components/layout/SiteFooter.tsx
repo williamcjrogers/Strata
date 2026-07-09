@@ -96,11 +96,19 @@ export function SiteFooter() {
                   {contactCta.label}
                 </Link>
               </li>
+              <li>
+                <a
+                  href="mailto:enquiries@stratacc.com"
+                  className="transition-colors hover:text-white"
+                >
+                  enquiries@stratacc.com
+                </a>
+              </li>
               <li>United Kingdom</li>
               <li>
                 <a
                   href="https://www.linkedin.com/"
-                  rel="noreferrer"
+                  rel="noreferrer noopener"
                   target="_blank"
                   className="transition-colors hover:text-white"
                 >
@@ -119,6 +127,12 @@ export function SiteFooter() {
           <div className="flex gap-6">
             <Link href="/privacy" className="transition-colors hover:text-white">
               Privacy and cookies
+            </Link>
+            <Link href="/terms" className="transition-colors hover:text-white">
+              Terms of use
+            </Link>
+            <Link href="/accessibility" className="transition-colors hover:text-white">
+              Accessibility
             </Link>
           </div>
         </div>

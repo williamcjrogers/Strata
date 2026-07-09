@@ -85,7 +85,7 @@ export default async function PersonPage({ params }: PageProps<"/people/[slug]">
                 <p className="mt-6">
                   <a
                     href={person.linkedinUrl}
-                    rel="noreferrer"
+                    rel="noreferrer noopener"
                     target="_blank"
                     className="text-sm font-semibold uppercase tracking-wide text-accent-ink underline decoration-strata-300 underline-offset-4 hover:decoration-strata-600"
                   >

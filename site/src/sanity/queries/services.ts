@@ -56,6 +56,7 @@ export const serviceBySlugQuery = defineQuery(`
     cta{
       heading,
       text,
+      statusChips,
       link{
         label,
         linkType,

@@ -42,7 +42,7 @@ export default async function ContactPage() {
                     <li>
                       <a
                         href={contact.linkedinUrl}
-                        rel="noreferrer"
+                        rel="noreferrer noopener"
                         target="_blank"
                         className="text-strata-700 underline decoration-strata-300 underline-offset-4 hover:text-strata-900"
                       >

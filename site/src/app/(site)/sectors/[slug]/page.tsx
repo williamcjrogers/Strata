@@ -152,7 +152,12 @@ export default async function SectorPage({ params }: PageProps<"/sectors/[slug]"
       <QuoteBlock quote={sector.quote} variant="band" />
 
       {sector.cta?.heading && cta ? (
-        <CTASection heading={sector.cta.heading} text={sector.cta.text} link={cta} />
+        <CTASection
+          heading={sector.cta.heading}
+          text={sector.cta.text}
+          link={cta}
+          statusChips={sector.cta.statusChips}
+        />
       ) : null}
     </>
   );

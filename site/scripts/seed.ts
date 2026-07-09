@@ -1132,6 +1132,44 @@ async function run() {
           "Pre-contract, post-contract, claims and bank monitoring, applied across the markets we know best. Every intersection below is a service we actually deliver.",
       },
       {
+        _type: "processSection",
+        _key: "hm3b",
+        eyebrow: "How we work",
+        heading: "The Strata method",
+        intro:
+          "Layered like the name: fast instruction, senior delivery, technology underneath. The judgment calls always stay human.",
+        steps: [
+          {
+            _type: "processStep",
+            _key: "st1",
+            title: "Instruct",
+            description:
+              "A director takes the brief. Conflict check, scope and fee agreed quickly, in plain terms.",
+          },
+          {
+            _type: "processStep",
+            _key: "st2",
+            title: "Deploy",
+            description:
+              "Senior specialists embedded immediately, with no training burden on your team.",
+          },
+          {
+            _type: "processStep",
+            _key: "st3",
+            title: "Deliver",
+            description:
+              "AI enabled tooling accelerates the preparation; a director makes every judgment call.",
+          },
+          {
+            _type: "processStep",
+            _key: "st4",
+            title: "Report",
+            description:
+              "Clear reporting on a fixed cadence, with quantified outcomes you can take to a board or a lender.",
+          },
+        ],
+      },
+      {
         _type: "projectGrid",
         _key: "hm4",
         eyebrow: "Track record",
@@ -1156,6 +1194,7 @@ async function run() {
           heading: "Senior specialists, available now",
           text: "The UK is short of experienced quantity surveyors and half of projects feel it. Ours are ready to deploy, with no training burden on your team.",
           link: internalLink("Start a conversation", "page-contact"),
+          statusChips: ["Accepting instructions", "Director response within one working day"],
         },
       },
     ],
@@ -1456,6 +1495,79 @@ async function run() {
       _type: "seo",
       metaDescription: "Privacy and cookies notice for the Strata Cost Consulting website.",
       noIndex: false,
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "page-terms",
+    _type: "page",
+    title: "Terms of use",
+    slug: slug("terms"),
+    hero: {
+      eyebrow: "Legal",
+      heading: "Terms of use",
+      lede: "The terms on which this website is provided.",
+    },
+    sections: [
+      {
+        _type: "richTextSection",
+        _key: "tm1",
+        content: pt(
+          "trm",
+          "## Use of this website",
+          "This website is provided by Strata Cost Consulting (SCC) for general information about our services. By using it you accept these terms. If you do not accept them, please do not use the website.",
+          "## No professional advice",
+          "Content on this website, including insights articles, is general commentary. It is not commercial, legal or professional advice and must not be relied upon as such. Advice is provided only under an agreed engagement with defined scope and terms.",
+          "## No engagement by browsing",
+          "Nothing on this website creates a consultant and client relationship. An engagement exists only once a written appointment or terms of engagement have been agreed and any conflict check has been completed.",
+          "## Intellectual property",
+          "The Strata Cost Consulting name, logo and the content of this website are our property or used with permission. You may view and print pages for your own reference; any other reproduction requires our written consent.",
+          "## Accuracy and availability",
+          "We keep the website's content under review but do not warrant that it is complete, current or error free, or that the website will be available without interruption. Market figures are cited with their sources and speak as at their stated dates.",
+          "## Liability",
+          "To the extent permitted by law, we accept no liability for loss arising from reliance on this website's content. Nothing in these terms excludes liability that cannot be excluded by law.",
+          "## Governing law",
+          "These terms are governed by the law of England and Wales, and the courts of England and Wales have exclusive jurisdiction.",
+        ),
+      },
+    ],
+    seo: {
+      _type: "seo",
+      metaDescription: "Terms of use for the Strata Cost Consulting website.",
+    },
+  });
+
+  tx.createOrReplace({
+    _id: "page-accessibility",
+    _type: "page",
+    title: "Accessibility",
+    slug: slug("accessibility"),
+    hero: {
+      eyebrow: "Legal",
+      heading: "Accessibility",
+      lede: "This website is designed to be usable by everyone.",
+    },
+    sections: [
+      {
+        _type: "richTextSection",
+        _key: "ac1",
+        content: pt(
+          "acc",
+          "## Our commitment",
+          "We build to the Web Content Accessibility Guidelines (WCAG) 2.2 level AA. The website is tested with automated audits and manual keyboard and screen reader checks as part of every release.",
+          "## What that means in practice",
+          "Every page can be navigated by keyboard alone, with a visible focus indicator and a skip link to the main content. Text contrast meets or exceeds AA ratios throughout. All motion and animation respects your operating system's reduced motion preference, and no content requires JavaScript to read. Images carry text alternatives, forms have visible labels with clear error messages, and the site works at 400% zoom.",
+          "## Known limitations",
+          "Placeholder artwork is used where project photography is awaited; it is decorative and marked accordingly.",
+          "## Tell us if something is not working",
+          "If any part of this website is difficult to use with your assistive technology, contact us through the contact page or email enquiries@stratacc.com and we will fix it or provide the content in another format.",
+        ),
+      },
+    ],
+    seo: {
+      _type: "seo",
+      metaDescription:
+        "Accessibility statement for the Strata Cost Consulting website: WCAG 2.2 AA, keyboard navigable, reduced motion support.",
     },
   });
 

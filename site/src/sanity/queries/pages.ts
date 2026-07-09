@@ -46,6 +46,7 @@ export const pageBySlugQuery = defineQuery(`
         cta{
           heading,
           text,
+          statusChips,
           link{
             label,
             linkType,
@@ -53,6 +54,12 @@ export const pageBySlugQuery = defineQuery(`
             internal->{_type, "slug": slug.current}
           }
         }
+      },
+      _type == "processSection" => {
+        eyebrow,
+        heading,
+        intro,
+        steps[]{_key, title, description}
       },
       _type == "featureGrid" => {
         eyebrow,

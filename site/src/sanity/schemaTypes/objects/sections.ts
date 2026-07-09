@@ -201,6 +201,47 @@ export const serviceMatrix = defineType({
   },
 });
 
+export const processSection = defineType({
+  name: "processSection",
+  title: "Process steps",
+  type: "object",
+  fields: [
+    ...sectionHeader,
+    defineField({ name: "intro", title: "Introduction", type: "text", rows: 3 }),
+    defineField({
+      name: "steps",
+      title: "Steps",
+      type: "array",
+      of: [
+        defineArrayMember({
+          name: "processStep",
+          title: "Step",
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "string",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Description",
+              type: "text",
+              rows: 3,
+            }),
+          ],
+        }),
+      ],
+      validation: (rule) => rule.min(2).max(6),
+    }),
+  ],
+  preview: {
+    select: { title: "heading" },
+    prepare: ({ title }) => ({ title: title || "Process steps", subtitle: "Process steps" }),
+  },
+});
+
 export const logoStrip = defineType({
   name: "logoStrip",
   title: "Logo strip",
@@ -241,6 +282,7 @@ export const sectionTypes = [
   projectGrid,
   peopleGrid,
   serviceMatrix,
+  processSection,
   logoStrip,
 ];
 

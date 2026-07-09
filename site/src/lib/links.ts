@@ -23,6 +23,8 @@ const PAGE_ROUTES: Record<string, string> = {
   careers: "/careers",
   contact: "/contact",
   privacy: "/privacy",
+  terms: "/terms",
+  accessibility: "/accessibility",
 };
 
 export function hrefForDoc(docType?: string | null, slug?: string | null): string {

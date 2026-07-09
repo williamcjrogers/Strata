@@ -53,7 +53,7 @@ const components: PortableTextComponents = {
     externalLink: ({ children, value }) => (
       <a
         href={value?.href}
-        rel="noreferrer"
+        rel="noreferrer noopener"
         target="_blank"
         className="text-accent-ink underline decoration-strata-300 underline-offset-4 transition-colors hover:decoration-strata-600"
       >
