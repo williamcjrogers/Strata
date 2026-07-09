@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { inter, spaceGrotesk } from "@/lib/fonts";
+import { ibmPlexMono, inter, spaceGrotesk } from "@/lib/fonts";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
       {/* suppressHydrationWarning: browser extensions (e.g. Kapture) inject
           body classes before hydration; attribute-only, children unaffected */}
