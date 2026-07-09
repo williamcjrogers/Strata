@@ -206,7 +206,7 @@ async function RenderSection({
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span aria-hidden="true" className="type-mono text-strata-500">
+                    <span aria-hidden="true" className="type-mono text-strata-400">
                       PROC.{String(i + 1).padStart(2, "0")}
                     </span>
                   </div>

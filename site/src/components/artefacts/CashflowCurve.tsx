@@ -61,7 +61,7 @@ export function CashflowCurve({
               textAnchor="end"
               fontFamily="var(--font-mono)"
               fontSize="12"
-              fill="var(--color-strata-500)"
+              fill="var(--color-strata-400)"
             >
               {Math.round(t * 100)}%
             </text>
@@ -83,7 +83,7 @@ export function CashflowCurve({
             textAnchor="middle"
             fontFamily="var(--font-mono)"
             fontSize="12"
-            fill="var(--color-strata-500)"
+            fill="var(--color-strata-400)"
           >
             {m}
           </text>
@@ -115,7 +115,7 @@ export function CashflowCurve({
           {annotation}
         </text>
       </svg>
-      <p className="type-mono mt-3 border-t border-panel-line pt-4 text-strata-500">
+      <p className="type-mono mt-3 border-t border-panel-line pt-4 text-strata-400">
         <span className="mr-3 inline-block w-6 border-t-2 border-dashed border-strata-500 align-middle" />
         planned
         <span className="ml-5 mr-3 inline-block w-6 border-t-2 border-strata-300 align-middle" />

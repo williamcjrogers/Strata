@@ -74,7 +74,7 @@ export function EngineDiagram({
             >
               <p
                 aria-hidden="true"
-                className={`type-mono ${dark ? "text-strata-500" : "text-strata-400"}`}
+                className={`type-mono ${dark ? "text-strata-300" : "text-strata-600"}`}
               >
                 PROC.{node.code}
               </p>

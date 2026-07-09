@@ -22,7 +22,7 @@ export function RefCode({
     >
       {code}
       {suffix ? (
-        <span className={tone === "dark" ? "text-strata-500" : "text-strata-400"}>
+        <span className={tone === "dark" ? "text-strata-400" : "text-strata-600"}>
           {` // ${suffix}`}
         </span>
       ) : null}

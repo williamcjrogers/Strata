@@ -37,7 +37,7 @@ export function CostPlanBuildup({
           <div key={row.code} data-reveal data-artefact-bar>
             <div className="flex items-baseline justify-between gap-4">
               <p className="type-mono text-strata-300">
-                <span className="text-strata-500">{row.code}</span> {row.label}
+                <span className="text-strata-400">{row.code}</span> {row.label}
                 {row.flag ? (
                   <span className="ml-2 bg-paper px-1.5 py-0.5 text-strata-950">
                     VARIANCE
@@ -45,7 +45,7 @@ export function CostPlanBuildup({
                 ) : null}
               </p>
               <p className="type-mono shrink-0 text-strata-100">
-                <span className="text-strata-500">
+                <span className="text-strata-400">
                   {row.baseline.toLocaleString("en-GB")}
                 </span>
                 {" / "}
@@ -66,14 +66,14 @@ export function CostPlanBuildup({
         ))}
       </div>
       <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-panel-line pt-4">
-        <p className="type-mono text-strata-500">
+        <p className="type-mono text-strata-400">
           <span className="mr-3 inline-block h-1.5 w-6 bg-strata-700 align-middle" />
           baseline
           <span className="ml-5 mr-3 inline-block h-1.5 w-6 bg-strata-400 align-middle" />
           out-turn
         </p>
         {footnote ? (
-          <p className="type-mono text-strata-500">{footnote}</p>
+          <p className="type-mono text-strata-400">{footnote}</p>
         ) : null}
       </div>
     </div>

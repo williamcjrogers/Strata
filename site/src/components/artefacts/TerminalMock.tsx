@@ -9,7 +9,7 @@ const LINE_STYLE: Record<TerminalLine["kind"], string> = {
   cmd: "text-strata-100",
   out: "text-strata-300",
   ok: "text-strata-400",
-  note: "text-strata-500",
+  note: "text-strata-400",
 };
 
 export function TerminalMock({
@@ -38,18 +38,18 @@ export function TerminalMock({
         {lines.map((line, i) => (
           <p key={i} data-reveal className={LINE_STYLE[line.kind]}>
             {line.kind === "cmd" ? (
-              <span className="mr-2 text-strata-500">$</span>
+              <span className="mr-2 text-strata-400">$</span>
             ) : line.kind === "ok" ? (
               <span className="mr-2">OK</span>
             ) : (
-              <span className="mr-2 text-strata-700">&gt;</span>
+              <span className="mr-2 text-strata-400">&gt;</span>
             )}
             {line.text}
           </p>
         ))}
         {showCaret ? (
           <p className="text-strata-300">
-            <span className="mr-2 text-strata-500">$</span>
+            <span className="mr-2 text-strata-400">$</span>
             <span className="terminal-caret inline-block h-4 w-2 translate-y-0.5 bg-strata-300" />
           </p>
         ) : null}

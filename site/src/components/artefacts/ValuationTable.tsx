@@ -48,7 +48,7 @@ export function ValuationTable({
               compact ? "py-2.5" : "py-3.5"
             } sm:grid-cols-[3rem_1fr_auto_auto] sm:gap-x-5`}
           >
-            <span className="type-mono text-strata-500">{row.ref}</span>
+            <span className="type-mono text-strata-400">{row.ref}</span>
             <span className={`text-strata-100 ${compact ? "text-xs" : "text-sm"}`}>
               {row.item}
             </span>

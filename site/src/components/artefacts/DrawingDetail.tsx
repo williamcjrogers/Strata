@@ -30,7 +30,9 @@ export function DrawingDetail({
 }) {
   const { w, h } = RATIOS[ratio];
   const n = fnvHash(seed);
-  const blockH = Math.max(52, h * 0.11);
+  /* tall enough that the label row survives ParallaxMedia's 116%
+     overdraw crop (~7% of the sheet disappears top and bottom) */
+  const blockH = Math.max(64, h * 0.17);
   const fs = Math.max(17, w * 0.013);
   const gridStep = Math.round(w / 40);
 
@@ -114,13 +116,13 @@ export function DrawingDetail({
       <rect x={0} y={h - blockH} width={w} height={blockH} fill="var(--color-mist)" stroke="var(--color-line)" strokeWidth="1.5" />
       <line x1={w * 0.55} y1={h - blockH} x2={w * 0.55} y2={h} stroke="var(--color-line)" strokeWidth="1.5" />
       <line x1={w * 0.78} y1={h - blockH} x2={w * 0.78} y2={h} stroke="var(--color-line)" strokeWidth="1.5" />
-      <text x={w * 0.02} y={h - blockH / 2 + fs * 0.36} fontFamily="var(--font-mono)" fontSize={fs} fill="var(--color-strata-700)">
+      <text x={w * 0.02} y={h - blockH * 0.62 + fs * 0.36} fontFamily="var(--font-mono)" fontSize={fs} fill="var(--color-strata-700)">
         {title.toUpperCase()}
       </text>
-      <text x={w * 0.57} y={h - blockH / 2 + fs * 0.36} fontFamily="var(--font-mono)" fontSize={fs} fill="var(--color-strata-600)">
+      <text x={w * 0.57} y={h - blockH * 0.62 + fs * 0.36} fontFamily="var(--font-mono)" fontSize={fs} fill="var(--color-strata-600)">
         {`DWG ${code}`}
       </text>
-      <text x={w * 0.8} y={h - blockH / 2 + fs * 0.36} fontFamily="var(--font-mono)" fontSize={fs} fill="var(--color-strata-600)">
+      <text x={w * 0.8} y={h - blockH * 0.62 + fs * 0.36} fontFamily="var(--font-mono)" fontSize={fs} fill="var(--color-strata-600)">
         {`SCALE ${scale} / REV ${rev}`}
       </text>
     </svg>
