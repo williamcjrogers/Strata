@@ -1,4 +1,25 @@
 import { notFound } from "next/navigation";
+import { CashflowCurve } from "@/components/artefacts/CashflowCurve";
+import { ComparisonTable } from "@/components/artefacts/ComparisonTable";
+import { CostPlanBuildup } from "@/components/artefacts/CostPlanBuildup";
+import { DrawingDetail } from "@/components/artefacts/DrawingDetail";
+import { EngineDiagram } from "@/components/artefacts/EngineDiagram";
+import { MetricChip } from "@/components/artefacts/MetricChip";
+import { RefCode } from "@/components/artefacts/RefCode";
+import { TerminalMock } from "@/components/artefacts/TerminalMock";
+import { Ticker } from "@/components/artefacts/Ticker";
+import { ValuationTable } from "@/components/artefacts/ValuationTable";
+import {
+  comparisonRows,
+  costPlanRows,
+  engineNodes,
+  engineTerminalLines,
+  finalAccountRows,
+  instructionNodes,
+  interimValuationRows,
+  tickerItems,
+} from "@/components/artefacts/presets";
+import { ArtefactPlaceholder } from "@/components/media/ArtefactPlaceholder";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -94,6 +115,86 @@ export default function StyleguidePage() {
           <WaveDivider />
           <div className="bg-anchor p-6">
             <WaveDivider tone="dark" />
+          </div>
+        </section>
+
+        <section aria-labelledby="sg-mono" className="space-y-6">
+          <h2 id="sg-mono" className="type-h3 text-strata-900">
+            Forensic voice
+          </h2>
+          <p className="type-mono text-strata-600">
+            Type-mono: SCC-HP-001 / VAL.14 / BASIS: NRM1 / £4,820K
+          </p>
+          <RefCode code="SCC-HP-001" suffix="COST PLAN / NRM1" />
+          <div className="flex flex-wrap gap-3">
+            <MetricChip label="Accepting instructions" pulse tone="light" />
+            <MetricChip label="Director response within one working day" tone="light" />
+          </div>
+          <div className="flex flex-wrap gap-3 bg-anchor p-6">
+            <MetricChip label="Accepting instructions" pulse />
+            <MetricChip label="Fixed or capped fees" />
+          </div>
+        </section>
+
+        <section aria-labelledby="sg-ticker" className="space-y-6">
+          <h2 id="sg-ticker" className="type-h3 text-strata-900">
+            Ticker
+          </h2>
+          <Ticker items={tickerItems} />
+          <Ticker items={tickerItems} tone="dark" />
+        </section>
+
+        <section aria-labelledby="sg-artefacts" className="space-y-10">
+          <h2 id="sg-artefacts" className="type-h3 text-strata-900">
+            Artefacts
+          </h2>
+          <CostPlanBuildup rows={costPlanRows} footnote="figures illustrative" />
+          <div className="grid gap-8 lg:grid-cols-2">
+            <ValuationTable rows={interimValuationRows} total="13,777,090" />
+            <ValuationTable
+              refCode="SCC-FA-002"
+              title="Final account reconciliation"
+              rows={finalAccountRows}
+            />
+          </div>
+          <CashflowCurve />
+          <EngineDiagram nodes={engineNodes} />
+          <div className="grid gap-8 lg:grid-cols-2">
+            <EngineDiagram
+              refCode="SCC-INS-01"
+              nodes={instructionNodes}
+              orientation="vertical"
+              tone="light"
+            />
+            <TerminalMock lines={engineTerminalLines} />
+          </div>
+          <ComparisonTable rows={comparisonRows} />
+        </section>
+
+        <section aria-labelledby="sg-placeholders" className="space-y-6">
+          <h2 id="sg-placeholders" className="type-h3 text-strata-900">
+            Artefact placeholders
+          </h2>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div className="aspect-card">
+              <ArtefactPlaceholder seed="riverside-quarter" kind="drawing" className="h-full w-full" />
+            </div>
+            <div className="aspect-card">
+              <ArtefactPlaceholder seed="social-housing" kind="benchmark" className="h-full w-full" />
+            </div>
+            <div className="aspect-card">
+              <ArtefactPlaceholder seed="funding-delivery" kind="figure" ratio="16:9" className="h-full w-full" />
+            </div>
+            <div className="aspect-card">
+              <ArtefactPlaceholder seed="sean-ellison" kind="id" ratio="4:5" className="h-full w-full" />
+            </div>
+          </div>
+          <div className="aspect-hero">
+            <DrawingDetail
+              seed="estate-regeneration-phase-two"
+              code="SCC-D-201"
+              title="Estate regeneration, phase two"
+            />
           </div>
         </section>
       </Container>
