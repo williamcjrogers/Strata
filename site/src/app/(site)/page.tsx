@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Ticker } from "@/components/artefacts/Ticker";
+import { ValuationTable } from "@/components/artefacts/ValuationTable";
+import { heroValuationRows, tickerItems } from "@/components/artefacts/presets";
 import { StrataHero } from "@/components/motion/StrataHero";
 import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -47,7 +50,13 @@ export default async function HomePage() {
         title={page.hero?.heading ?? page.title ?? "Strata Cost Consulting"}
         lede={page.hero?.lede}
         cta={cta}
+        refCode="SCC-HP-001 // COMMERCIAL CLARITY"
+        chips={["Accepting instructions", "Director response within one working day"]}
+        panel={
+          <ValuationTable rows={heroValuationRows} total="14,805,150" compact />
+        }
       />
+      <Ticker items={tickerItems} />
       <SectionRenderer sections={page.sections} settings={settings} />
     </>
   );

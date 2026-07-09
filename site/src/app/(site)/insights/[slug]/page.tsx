@@ -10,6 +10,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
+import { refFromSeed } from "@/lib/refcode";
 import { buildMetadata } from "@/lib/seo";
 import { sanityFetch } from "@/sanity/lib/live";
 import { articleBySlugQuery, articleSlugsQuery } from "@/sanity/queries/articles";
@@ -78,6 +79,7 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
           .join(" · ")}
         title={article.title ?? ""}
         lede={article.excerpt}
+        refCode={refFromSeed("SCC-INS", article.slug ?? article._id)}
       />
 
       <SectionReveal as="article" className="py-section">

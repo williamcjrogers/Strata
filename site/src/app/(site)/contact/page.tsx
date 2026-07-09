@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { EngineDiagram } from "@/components/artefacts/EngineDiagram";
+import { MetricChip } from "@/components/artefacts/MetricChip";
+import { instructionNodes } from "@/components/artefacts/presets";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { SectionReveal } from "@/components/motion/SectionReveal";
 import { CmsPage, cmsPageMetadata } from "@/components/sections/CmsPage";
@@ -21,6 +24,16 @@ export default async function ContactPage() {
         <Container>
           <div className="grid gap-14 lg:grid-cols-[2fr_1fr]">
             <div data-reveal>
+              <ul className="mb-8 flex flex-wrap gap-3">
+                {[
+                  "Accepting instructions",
+                  "Director response within one working day",
+                ].map((chip, i) => (
+                  <li key={chip}>
+                    <MetricChip label={chip} tone="light" pulse={i === 0} />
+                  </li>
+                ))}
+              </ul>
               <ContactForm />
             </div>
             <aside data-reveal className="space-y-10">
@@ -70,6 +83,17 @@ export default async function ContactPage() {
                   Every enquiry is read by a director, not a triage inbox. Expect
                   a considered reply, usually the same working day.
                 </p>
+              </div>
+              <div>
+                <h2 className="eyebrow text-strata-700">How instruction works</h2>
+                <div className="mt-4">
+                  <EngineDiagram
+                    refCode="SCC-INS-01"
+                    nodes={instructionNodes}
+                    orientation="vertical"
+                    tone="light"
+                  />
+                </div>
               </div>
             </aside>
           </div>

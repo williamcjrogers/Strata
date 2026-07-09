@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
+import { CashflowCurve } from "@/components/artefacts/CashflowCurve";
+import { CostPlanBuildup } from "@/components/artefacts/CostPlanBuildup";
+import { ValuationTable } from "@/components/artefacts/ValuationTable";
+import {
+  costPlanRows,
+  finalAccountRows,
+  interimValuationRows,
+} from "@/components/artefacts/presets";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { SectionReveal } from "@/components/motion/SectionReveal";
 import { StrataHero } from "@/components/motion/StrataHero";
@@ -42,6 +51,23 @@ export async function generateMetadata({
   });
 }
 
+/* the artefact each service line shows beside its introduction */
+const SERVICE_ARTEFACTS: Record<string, ReactNode> = {
+  "pre-contract": (
+    <CostPlanBuildup rows={costPlanRows} compact footnote="figures illustrative" />
+  ),
+  "post-contract": <ValuationTable rows={interimValuationRows} total="13,777,090" compact />,
+  claims: (
+    <ValuationTable
+      refCode="SCC-FA-002"
+      title="Final account reconciliation"
+      rows={finalAccountRows}
+      compact
+    />
+  ),
+  "bank-monitoring": <CashflowCurve />,
+};
+
 export default async function ServicePage({ params }: PageProps<"/services/[slug]">) {
   const { slug } = await params;
   const { data: service } = await sanityFetch({
@@ -69,6 +95,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         eyebrow="Services"
         title={service.title ?? ""}
         lede={service.strapline}
+        refCode={`SCC-SVC-${String(service.order ?? 0).padStart(2, "0")}`}
       />
 
       <SectionReveal className="py-section">
@@ -77,8 +104,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             <div data-reveal>
               <Prose value={service.intro} />
             </div>
-            <aside data-reveal>
-              <div className="border-t-2 border-anchor bg-mist p-6">
+            <aside className="space-y-8">
+              <div data-reveal className="border-t-2 border-anchor bg-mist p-6">
                 <h2 className="eyebrow text-strata-700">Engagement model</h2>
                 <p className="type-h3 mt-3 text-strata-900">
                   {service.engagementModel ?? "Tailored to the commission"}
@@ -87,6 +114,9 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                   Every commission carries director level oversight from day one.
                 </p>
               </div>
+              {service.slug && SERVICE_ARTEFACTS[service.slug] ? (
+                <div data-reveal>{SERVICE_ARTEFACTS[service.slug]}</div>
+              ) : null}
             </aside>
           </div>
         </Container>

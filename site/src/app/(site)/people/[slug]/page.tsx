@@ -76,9 +76,10 @@ export default async function PersonPage({ params }: PageProps<"/people/[slug]">
                 <SanityImage
                   image={person.headshot ?? null}
                   fallbackSeed={person.slug ?? person._id}
+                  fallback="id"
                   sizes="(min-width: 1024px) 24rem, 100vw"
                   ratio="4:5"
-                  className="object-cover"
+                  className={person.headshot?.asset?.url ? "object-cover" : "h-full w-full"}
                 />
               </div>
               {person.linkedinUrl ? (

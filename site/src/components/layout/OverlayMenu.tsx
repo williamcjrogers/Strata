@@ -103,6 +103,9 @@ export function OverlayMenu({
           >
             {cta.label}
           </Link>
+          <p aria-hidden="true" className="type-mono text-strata-500">
+            {"SCC // COMMERCIAL AND COST CONSULTANCY // UK"}
+          </p>
           <WaveDivider tone="dark" className="h-10 w-full" />
         </div>
       </div>

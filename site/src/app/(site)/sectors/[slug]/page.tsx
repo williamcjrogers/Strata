@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CashflowCurve } from "@/components/artefacts/CashflowCurve";
+import { CostPlanBuildup } from "@/components/artefacts/CostPlanBuildup";
+import { costPlanRows } from "@/components/artefacts/presets";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { CredentialsBand } from "@/components/motion/CredentialsBand";
 import { SectionReveal } from "@/components/motion/SectionReveal";
@@ -13,6 +16,7 @@ import { QuoteBlock } from "@/components/ui/QuoteBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { resolveLink } from "@/lib/links";
+import { refFromSeed } from "@/lib/refcode";
 import { buildMetadata } from "@/lib/seo";
 import { sanityFetch } from "@/sanity/lib/live";
 import { sectorBySlugQuery, sectorSlugsQuery } from "@/sanity/queries/sectors";
@@ -67,6 +71,7 @@ export default async function SectorPage({ params }: PageProps<"/sectors/[slug]"
         eyebrow="Sectors"
         title={sector.title ?? ""}
         lede={sector.strapline}
+        refCode={refFromSeed("SCC-SEC", sector.slug ?? sector._id)}
       />
 
       {sector.keyStats && sector.keyStats.length > 0 ? (
@@ -75,8 +80,22 @@ export default async function SectorPage({ params }: PageProps<"/sectors/[slug]"
 
       <SectionReveal className="py-section">
         <Container>
-          <div data-reveal className="max-w-3xl">
-            <Prose value={sector.marketContext} />
+          <div className="grid gap-12 lg:grid-cols-[2fr_1fr]">
+            <div data-reveal className="max-w-3xl">
+              <Prose value={sector.marketContext} />
+            </div>
+            <aside data-reveal>
+              {sector.slug === "bank-monitoring" ? (
+                <CashflowCurve />
+              ) : (
+                <CostPlanBuildup
+                  rows={costPlanRows}
+                  refCode={refFromSeed("SCC-CP", sector.slug ?? sector._id)}
+                  compact
+                  footnote="figures illustrative"
+                />
+              )}
+            </aside>
           </div>
         </Container>
       </SectionReveal>

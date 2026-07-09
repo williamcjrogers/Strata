@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DrawingDetail } from "@/components/artefacts/DrawingDetail";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { SanityImage } from "@/components/media/SanityImage";
 import { ParallaxMedia } from "@/components/motion/ParallaxMedia";
@@ -13,6 +14,7 @@ import { Prose } from "@/components/ui/Prose";
 import { QuoteBlock } from "@/components/ui/QuoteBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
+import { refFromSeed } from "@/lib/refcode";
 import { buildMetadata } from "@/lib/seo";
 import { sanityFetch } from "@/sanity/lib/live";
 import { projectBySlugQuery, projectSlugsQuery } from "@/sanity/queries/projects";
@@ -81,7 +83,7 @@ function ProjectMetaLine({
     <dl className="grid grid-cols-2 gap-x-8 gap-y-6 border-y border-line py-8 sm:grid-cols-3 lg:grid-cols-5">
       {items.map((item) => (
         <div key={item.label}>
-          <dt className="eyebrow text-strata-600">{item.label}</dt>
+          <dt className="type-mono text-strata-600">{item.label}</dt>
           <dd className="mt-2 text-sm font-semibold text-strata-900">{item.value}</dd>
         </div>
       ))}
@@ -111,6 +113,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         eyebrow={project.sectors?.[0]?.title ?? "Projects"}
         title={project.title ?? ""}
         lede={project.summary}
+        refCode={refFromSeed("SCC-PRJ", project.slug ?? project._id)}
       />
 
       <SectionReveal className="py-section-sm">
@@ -118,14 +121,22 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           <div data-reveal>
             <ParallaxMedia className="aspect-hero w-full bg-strata-900">
               <div className="relative h-full w-full">
-                <SanityImage
-                  image={project.heroImage ?? null}
-                  fallbackSeed={project.slug ?? project._id}
-                  sizes="(min-width: 1280px) 80rem, 100vw"
-                  ratio="21:9"
-                  className="object-cover"
-                  priority
-                />
+                {project.heroImage?.asset?.url ? (
+                  <SanityImage
+                    image={project.heroImage}
+                    fallbackSeed={project.slug ?? project._id}
+                    sizes="(min-width: 1280px) 80rem, 100vw"
+                    ratio="21:9"
+                    className="object-cover"
+                    priority
+                  />
+                ) : (
+                  <DrawingDetail
+                    seed={project.slug ?? project._id}
+                    code={refFromSeed("SCC-D", project.slug ?? project._id)}
+                    title={project.title ?? "Project record"}
+                  />
+                )}
               </div>
             </ParallaxMedia>
           </div>
@@ -153,6 +164,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                     <SanityImage
                       image={image}
                       fallbackSeed={image._key}
+                      fallback="drawing"
                       sizes="(min-width: 1024px) 50vw, 100vw"
                       className="object-cover"
                     />
