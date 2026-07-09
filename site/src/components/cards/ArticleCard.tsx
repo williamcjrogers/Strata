@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SanityImage, type ProjectedImage } from "@/components/media/SanityImage";
+import { artefactKindForLabel } from "@/lib/artefact-kind";
 import { refFromSeed } from "@/lib/refcode";
 
 export type ArticleCardData = {
@@ -29,7 +30,8 @@ export function ArticleCard({ article }: { article: ArticleCardData }) {
         <SanityImage
           image={article.heroImage ?? null}
           fallbackSeed={article.slug ?? article._id}
-          fallback="figure"
+          fallback={artefactKindForLabel(article.topics?.[0]?.title)}
+          tone="light"
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           ratio="16:9"
           className="object-cover transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"

@@ -22,8 +22,10 @@ export type ProjectedImage = {
   blur and the Sanity CDN loader. Falls back to a deterministic
   placeholder when no image has been uploaded yet, in the same box, so
   swapping in photography later is purely a content change. `fallback`
-  picks the artwork family: brand waves (default) or a technical
-  artefact kind (drawing sheet, benchmark bars, figure, ID panel).
+  picks the artwork family: brand waves (default) or a discipline
+  artefact kind (building section, site plan, drawdown curve, cost
+  benchmark, claims variance, trend, ID panel). `tone` also tints the
+  artefact (light on paper cards, dark on overlaid tiles).
 */
 export function SanityImage({
   image,
@@ -51,6 +53,7 @@ export function SanityImage({
         <ArtefactPlaceholder
           seed={fallbackSeed}
           kind={fallback}
+          tone={tone}
           ratio={ratio}
           className={className ?? "h-full w-full"}
         />

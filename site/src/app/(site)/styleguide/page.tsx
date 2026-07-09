@@ -173,27 +173,36 @@ export default function StyleguidePage() {
 
         <section aria-labelledby="sg-placeholders" className="space-y-6">
           <h2 id="sg-placeholders" className="type-h3 text-strata-900">
-            Artefact placeholders
+            Discipline placeholders
           </h2>
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <div className="aspect-card">
-              <ArtefactPlaceholder seed="riverside-quarter" kind="drawing" className="h-full w-full" />
-            </div>
-            <div className="aspect-card">
-              <ArtefactPlaceholder seed="social-housing" kind="benchmark" className="h-full w-full" />
-            </div>
-            <div className="aspect-card">
-              <ArtefactPlaceholder seed="funding-delivery" kind="figure" ratio="16:9" className="h-full w-full" />
-            </div>
-            <div className="aspect-card">
+          <p className="type-mono text-strata-600">Light (project and insight cards)</p>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+            {(["building", "plan", "cashflow", "benchmark", "variance", "figure"] as const).map(
+              (kind) => (
+                <div key={kind} className="aspect-card">
+                  <ArtefactPlaceholder seed={`sg-${kind}`} kind={kind} tone="light" className="h-full w-full" />
+                </div>
+              ),
+            )}
+          </div>
+          <p className="type-mono text-strata-600">Dark (sector tiles)</p>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+            {(["building", "plan", "cashflow", "benchmark", "variance"] as const).map((kind) => (
+              <div key={kind} className="aspect-card">
+                <ArtefactPlaceholder seed={`sgd-${kind}`} kind={kind} tone="dark" className="h-full w-full" />
+              </div>
+            ))}
+            <div className="aspect-portrait">
               <ArtefactPlaceholder seed="sean-ellison" kind="id" ratio="4:5" className="h-full w-full" />
             </div>
           </div>
+          <p className="type-mono text-strata-600">Detail hero with title block</p>
           <div className="aspect-hero">
             <DrawingDetail
               seed="estate-regeneration-phase-two"
               code="SCC-D-201"
               title="Estate regeneration, phase two"
+              kind="building"
             />
           </div>
         </section>

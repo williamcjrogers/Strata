@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SanityImage, type ProjectedImage } from "@/components/media/SanityImage";
+import { artefactKindForLabel } from "@/lib/artefact-kind";
 import { refFromSeed } from "@/lib/refcode";
 
 export type ProjectCardData = {
@@ -27,7 +28,8 @@ export function ProjectCard({ project }: { project: ProjectCardData }) {
         <SanityImage
           image={project.heroImage ?? null}
           fallbackSeed={project.slug ?? project._id}
-          fallback="drawing"
+          fallback={artefactKindForLabel(project.sectors?.[0]?.title)}
+          tone="light"
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
         />

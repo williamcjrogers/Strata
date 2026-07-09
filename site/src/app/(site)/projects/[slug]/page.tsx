@@ -13,6 +13,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Prose } from "@/components/ui/Prose";
 import { QuoteBlock } from "@/components/ui/QuoteBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { artefactKindForLabel } from "@/lib/artefact-kind";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { refFromSeed } from "@/lib/refcode";
 import { buildMetadata } from "@/lib/seo";
@@ -135,6 +136,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                     seed={project.slug ?? project._id}
                     code={refFromSeed("SCC-D", project.slug ?? project._id)}
                     title={project.title ?? "Project record"}
+                    kind={artefactKindForLabel(project.sectors?.[0]?.title)}
                   />
                 )}
               </div>
@@ -164,7 +166,8 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                     <SanityImage
                       image={image}
                       fallbackSeed={image._key}
-                      fallback="drawing"
+                      fallback={artefactKindForLabel(project.sectors?.[0]?.title)}
+                      tone="light"
                       sizes="(min-width: 1024px) 50vw, 100vw"
                       className="object-cover"
                     />
