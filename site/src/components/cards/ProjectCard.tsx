@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SanityImage, type ProjectedImage } from "@/components/media/SanityImage";
+import { refFromSeed } from "@/lib/refcode";
 
 export type ProjectCardData = {
   _id: string;
@@ -26,11 +27,17 @@ export function ProjectCard({ project }: { project: ProjectCardData }) {
         <SanityImage
           image={project.heroImage ?? null}
           fallbackSeed={project.slug ?? project._id}
+          fallback="drawing"
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
         />
       </div>
-      <p className="meta-line mt-4 text-strata-700">{meta.join(" · ")}</p>
+      <p className="type-mono mt-4 text-strata-700">
+        <span aria-hidden="true" className="text-strata-600">
+          {refFromSeed("SCC-PRJ", project.slug ?? project._id)}
+        </span>
+        {meta.length > 0 ? ` / ${meta.join(" / ")}` : ""}
+      </p>
       <h3 className="type-h3 mt-2 text-strata-900 underline-offset-4 decoration-accent decoration-2 group-hover:underline">
         <Link href={`/projects/${project.slug}`} className="focus:outline-none">
           {/* stretch the whole card into the link target */}

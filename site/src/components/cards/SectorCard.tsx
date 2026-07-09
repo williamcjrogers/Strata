@@ -17,6 +17,7 @@ export function SectorCard({ sector }: { sector: SectorCardData }) {
         <SanityImage
           image={sector.heroImage ?? null}
           fallbackSeed={sector.slug ?? sector._id}
+          fallback="benchmark"
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
         />

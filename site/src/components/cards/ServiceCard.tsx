@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { RefCode } from "@/components/artefacts/RefCode";
+import { refFromSeed } from "@/lib/refcode";
 
 export type ServiceCardData = {
   _id: string;
@@ -16,9 +18,15 @@ export function ServiceCard({ service }: { service: ServiceCardData }) {
       data-reveal
       className="group relative border-t-2 border-anchor bg-paper pt-5 transition-colors hover:bg-mist"
     >
-      <p className="eyebrow text-accent-ink">
-        {String(service.order ?? 0).padStart(2, "0")}
-      </p>
+      <div className="flex items-baseline justify-between gap-4">
+        <p aria-hidden="true" className="type-mono text-accent-ink">
+          SRV.{String(service.order ?? 0).padStart(2, "0")}
+        </p>
+        <RefCode
+          code={refFromSeed("SCC-SVC", service.slug ?? service._id)}
+          className="pr-5"
+        />
+      </div>
       <h3 className="type-h3 mt-3 text-strata-900">
         <Link href={`/services/${service.slug}`} className="focus:outline-none">
           <span className="absolute inset-0" aria-hidden="true" />

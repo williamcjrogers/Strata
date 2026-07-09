@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SanityImage, type ProjectedImage } from "@/components/media/SanityImage";
+import { refFromSeed } from "@/lib/refcode";
 
 export type ArticleCardData = {
   _id: string;
@@ -28,15 +29,20 @@ export function ArticleCard({ article }: { article: ArticleCardData }) {
         <SanityImage
           image={article.heroImage ?? null}
           fallbackSeed={article.slug ?? article._id}
+          fallback="figure"
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           ratio="16:9"
           className="object-cover transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
         />
       </div>
-      <p className="meta-line mt-4 text-strata-700">
+      <p className="type-mono mt-4 text-strata-700">
+        <span aria-hidden="true" className="text-strata-600">
+          {refFromSeed("SCC-INS", article.slug ?? article._id)}
+        </span>
         {[article.topics?.[0]?.title, formatDate(article.publishedAt)]
           .filter(Boolean)
-          .join(" · ")}
+          .map((part) => ` / ${part}`)
+          .join("")}
       </p>
       <h3 className="type-h3 mt-2 text-strata-900 underline-offset-4 decoration-accent decoration-2 group-hover:underline">
         <Link href={`/insights/${article.slug}`} className="focus:outline-none">

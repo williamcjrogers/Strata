@@ -11,20 +11,29 @@ export type PersonCardData = {
 };
 
 export function PersonCard({ person }: { person: PersonCardData }) {
+  const hasPhoto = Boolean(person.headshot?.asset?.url);
+
   return (
     <article data-reveal className="group relative">
       <div className="relative aspect-portrait w-full overflow-clip bg-strata-900">
         <SanityImage
           image={person.headshot ?? null}
           fallbackSeed={person.slug ?? person._id}
+          fallback="id"
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
           ratio="4:5"
-          className="object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+          className={
+            hasPhoto
+              ? "object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+              : "h-full w-full"
+          }
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-strata-900/20 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-0"
-        />
+        {hasPhoto ? (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-strata-900/20 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-0"
+          />
+        ) : null}
       </div>
       <h3 className="type-h3 mt-4 text-strata-900">
         <Link href={`/people/${person.slug}`} className="focus:outline-none">
@@ -35,7 +44,7 @@ export function PersonCard({ person }: { person: PersonCardData }) {
       <p className="mt-1 text-sm text-strata-700">
         {person.role}
         {person.qualifications ? (
-          <span className="mt-0.5 block text-xs text-strata-600">
+          <span className="type-mono mt-1 block text-strata-600">
             {person.qualifications}
           </span>
         ) : null}
