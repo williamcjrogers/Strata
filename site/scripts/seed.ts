@@ -157,7 +157,7 @@ async function run() {
     description:
       "Commercial and cost consultancy built on trust, technical excellence and long term partnership. Senior specialists across social housing, infrastructure, contracting and bank monitoring.",
     contact: {
-      email: "enquiries@stratacostconsulting.co.uk",
+      email: "enquiries@stratacc.com",
       addressLines: ["United Kingdom"],
       linkedinUrl: "https://www.linkedin.com/",
     },
