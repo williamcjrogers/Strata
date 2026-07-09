@@ -1,4 +1,18 @@
 import Link from "next/link";
+import { CashflowCurve } from "@/components/artefacts/CashflowCurve";
+import { ComparisonTable } from "@/components/artefacts/ComparisonTable";
+import { CostPlanBuildup } from "@/components/artefacts/CostPlanBuildup";
+import { EngineDiagram } from "@/components/artefacts/EngineDiagram";
+import { TerminalMock } from "@/components/artefacts/TerminalMock";
+import { ValuationTable } from "@/components/artefacts/ValuationTable";
+import {
+  comparisonRows,
+  costPlanRows,
+  engineNodes,
+  engineTerminalLines,
+  finalAccountRows,
+  interimValuationRows,
+} from "@/components/artefacts/presets";
 import { PersonCard } from "@/components/cards/PersonCard";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { SanityImage } from "@/components/media/SanityImage";
@@ -56,6 +70,56 @@ function SectionHeader({
       ) : null}
     </header>
   );
+}
+
+/* dispatches the hardcoded artefact behind an artefactSection */
+function ArtefactSwitch({
+  artefact,
+  refCode,
+}: {
+  artefact?: string | null;
+  refCode?: string | null;
+}) {
+  const code = refCode ?? undefined;
+  switch (artefact) {
+    case "costPlanBuildup":
+      return (
+        <CostPlanBuildup
+          rows={costPlanRows}
+          refCode={code}
+          footnote="figures illustrative"
+        />
+      );
+    case "valuationTable":
+      return (
+        <ValuationTable rows={interimValuationRows} refCode={code} total="13,777,090" />
+      );
+    case "finalAccountTable":
+      return (
+        <ValuationTable
+          rows={finalAccountRows}
+          refCode={code ?? "SCC-FA-002"}
+          title="Final account reconciliation"
+        />
+      );
+    case "cashflowCurve":
+      return <CashflowCurve refCode={code} />;
+    case "engineDiagram":
+      return <EngineDiagram nodes={engineNodes} refCode={code} />;
+    case "terminalMock":
+      return <TerminalMock lines={engineTerminalLines} />;
+    case "comparisonTable":
+      return <ComparisonTable rows={comparisonRows} />;
+    case "engine":
+      return (
+        <div className="grid items-start gap-8 lg:grid-cols-2">
+          <EngineDiagram nodes={engineNodes} refCode={code} orientation="vertical" />
+          <TerminalMock lines={engineTerminalLines} />
+        </div>
+      );
+    default:
+      return null;
+  }
 }
 
 async function RenderSection({
@@ -135,12 +199,17 @@ async function RenderSection({
                   data-reveal
                   className="border-t-2 border-strata-500 pt-5"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="font-display text-4xl font-bold text-strata-500"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+                  <div className="flex items-baseline justify-between gap-4">
+                    <span
+                      aria-hidden="true"
+                      className="font-display text-4xl font-bold text-strata-500"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span aria-hidden="true" className="type-mono text-strata-500">
+                      PROC.{String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
                   <h3 className="type-h3 mt-4 text-paper">{step.title}</h3>
                   {step.description ? (
                     <p className="mt-3 text-sm text-strata-300">{step.description}</p>
@@ -273,6 +342,27 @@ async function RenderSection({
       );
     }
 
+    case "artefactSection":
+      return (
+        <SectionReveal className="py-section">
+          <Container>
+            <SectionHeader
+              eyebrow={section.eyebrow}
+              heading={section.heading}
+              index={index}
+            />
+            {section.intro ? (
+              <p data-reveal className="mt-5 max-w-2xl text-base text-strata-700">
+                {section.intro}
+              </p>
+            ) : null}
+            <div className="mt-12" data-reveal>
+              <ArtefactSwitch artefact={section.artefact} refCode={section.refCode} />
+            </div>
+          </Container>
+        </SectionReveal>
+      );
+
     case "logoStrip":
       if (!section.logos || section.logos.length === 0) return null;
       return (
@@ -312,6 +402,7 @@ const NUMBERED_TYPES = new Set([
   "peopleGrid",
   "serviceMatrix",
   "processSection",
+  "artefactSection",
 ]);
 
 export function SectionRenderer({

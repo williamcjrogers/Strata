@@ -115,6 +115,13 @@ export const pageBySlugQuery = defineQuery(`
         heading,
         intro
       },
+      _type == "artefactSection" => {
+        eyebrow,
+        heading,
+        intro,
+        artefact,
+        refCode
+      },
       _type == "logoStrip" => {
         heading,
         logos[]{

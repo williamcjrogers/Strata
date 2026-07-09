@@ -1085,6 +1085,16 @@ async function run() {
     },
     sections: [
       {
+        _type: "artefactSection",
+        _key: "hm0",
+        eyebrow: "Evidence",
+        heading: "Substantiated, line by line",
+        intro:
+          "Every figure we put forward is built up, benchmarked and traceable to source. The cost plan below shows the discipline: baseline against out-turn, element by element, variances flagged before they become disputes.",
+        artefact: "costPlanBuildup",
+        refCode: "SCC-CP-001",
+      },
+      {
         _type: "featureGrid",
         _key: "hm1",
         eyebrow: "Why Strata",
@@ -1130,6 +1140,16 @@ async function run() {
         heading: "Four services, five sectors",
         intro:
           "Pre-contract, post-contract, claims and bank monitoring, applied across the markets we know best. Every intersection below is a service we actually deliver.",
+      },
+      {
+        _type: "artefactSection",
+        _key: "hm3a",
+        eyebrow: "The Strata engine",
+        heading: "Automation prepares. Judgment decides.",
+        intro:
+          "Structured cost data, benchmark sets and AI enabled tooling accelerate the preparation. Every judgment call stays with a director, and every output is traceable back to source.",
+        artefact: "engine",
+        refCode: "SCC-SYS-01",
       },
       {
         _type: "processSection",
@@ -1236,6 +1256,15 @@ async function run() {
         ),
       },
       {
+        _type: "artefactSection",
+        _key: "ab1b",
+        eyebrow: "The difference",
+        heading: "What senior led actually means",
+        intro:
+          "The comparison below is the operating model, not a brochure claim. It is how commissions are resourced, priced and delivered.",
+        artefact: "comparisonTable",
+      },
+      {
         _type: "statsBand",
         _key: "ab2",
         eyebrow: "The market",
@@ -1287,6 +1316,16 @@ async function run() {
         eyebrow: "Coverage",
         heading: "Services across our sectors",
         intro: "Every marked intersection is a service we deliver today, with named senior leadership behind it.",
+      },
+      {
+        _type: "artefactSection",
+        _key: "sv1b",
+        eyebrow: "How engagement works",
+        heading: "From instruction to report",
+        intro:
+          "The same process topology sits behind every service line: a director takes the brief, senior specialists measure and benchmark, and every report passes director review before it reaches you.",
+        artefact: "engineDiagram",
+        refCode: "SCC-SYS-01",
       },
       {
         _type: "ctaBand",
@@ -1415,6 +1454,15 @@ async function run() {
           "## Who we are looking for",
           "High performing quantity surveyors from large national consultancies seeking accelerated progression, claims specialists who want their expertise to lead rather than support, and junior surveyors who want a proper training ground in bank monitoring and post contract work.",
         ),
+      },
+      {
+        _type: "artefactSection",
+        _key: "ca1b",
+        eyebrow: "The tooling",
+        heading: "The tooling you will actually use",
+        intro:
+          "Structured ingestion, benchmarking and drafting tools take the drudgery out of the work, so your time goes on measurement decisions and client advice rather than formatting.",
+        artefact: "terminalMock",
       },
       {
         _type: "quoteBand",
@@ -1558,7 +1606,7 @@ async function run() {
           "## What that means in practice",
           "Every page can be navigated by keyboard alone, with a visible focus indicator and a skip link to the main content. Text contrast meets or exceeds AA ratios throughout. All motion and animation respects your operating system's reduced motion preference, and no content requires JavaScript to read. Images carry text alternatives, forms have visible labels with clear error messages, and the site works at 400% zoom.",
           "## Known limitations",
-          "Placeholder artwork is used where project photography is awaited; it is decorative and marked accordingly.",
+          "Decorative technical artefacts (cost charts, valuation tables, drawings and terminal panels) are illustrative set-dressing and are marked as decorative; the surrounding text always carries the substance. Placeholder artwork is used where project photography is awaited and is marked the same way.",
           "## Tell us if something is not working",
           "If any part of this website is difficult to use with your assistive technology, contact us through the contact page or email enquiries@stratacc.com and we will fix it or provide the content in another format.",
         ),

@@ -42,6 +42,23 @@ export type LogoStrip = {
   }>;
 };
 
+export type ArtefactSection = {
+  _type: "artefactSection";
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+  artefact?:
+    | "costPlanBuildup"
+    | "valuationTable"
+    | "finalAccountTable"
+    | "cashflowCurve"
+    | "engineDiagram"
+    | "terminalMock"
+    | "comparisonTable"
+    | "engine";
+  refCode?: string;
+};
+
 export type ProcessSection = {
   _type: "processSection";
   eyebrow?: string;
@@ -327,6 +344,9 @@ export type Page = {
     | ({
         _key: string;
       } & ProcessSection)
+    | ({
+        _key: string;
+      } & ArtefactSection)
     | ({
         _key: string;
       } & LogoStrip)
@@ -662,6 +682,7 @@ export type Geopoint = {
 export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | LogoStrip
+  | ArtefactSection
   | ProcessSection
   | ServiceMatrix
   | PersonReference
@@ -830,7 +851,7 @@ export type ArticleSlugsQueryResult = Array<{
 
 // Source: src/sanity/queries/pages.ts
 // Variable: pageBySlugQuery
-// Query: *[_type == "page" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    hero{      eyebrow,      heading,      lede,      image{        "alt": alt,        asset->{_id, url, metadata{lqip, dimensions}}      },      cta{        label,        linkType,        external,        internal->{_type, "slug": slug.current}      }    },    sections[]{      _key,      _type,      _type == "richTextSection" => {        eyebrow,        heading,        content      },      _type == "statsBand" => {        eyebrow,        heading,        useGlobalStats,        stats[]{value, label, source, sourceUrl}      },      _type == "quoteBand" => {        quote{          text,          attributionName,          attributionRole,          person->{name, "slug": slug.current}        }      },      _type == "ctaBand" => {        cta{          heading,          text,          statusChips,          link{            label,            linkType,            external,            internal->{_type, "slug": slug.current}          }        }      },      _type == "processSection" => {        eyebrow,        heading,        intro,        steps[]{_key, title, description}      },      _type == "featureGrid" => {        eyebrow,        heading,        items[]{          _key,          heading,          text,          link{            label,            linkType,            external,            internal->{_type, "slug": slug.current}          }        }      },      _type == "projectGrid" => {        eyebrow,        heading,        mode,        projects[]->{          _id,          title,          "slug": slug.current,          client,          location,          value,          summary,          heroImage{            "alt": alt,            asset->{_id, url, metadata{lqip, dimensions}}          },          "sectors": sectors[]->{title, "slug": slug.current}        }      },      _type == "peopleGrid" => {        eyebrow,        heading,        people[]->{          _id,          name,          "slug": slug.current,          role,          qualifications,          headshot{            "alt": alt,            asset->{_id, url, metadata{lqip, dimensions}}          }        }      },      _type == "serviceMatrix" => {        eyebrow,        heading,        intro      },      _type == "logoStrip" => {        heading,        logos[]{          _key,          "alt": alt,          asset->{_id, url, metadata{lqip, dimensions}}        }      }    },    seo{metaTitle, metaDescription, "ogImage": ogImage.asset->url, noIndex}  }
+// Query: *[_type == "page" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    hero{      eyebrow,      heading,      lede,      image{        "alt": alt,        asset->{_id, url, metadata{lqip, dimensions}}      },      cta{        label,        linkType,        external,        internal->{_type, "slug": slug.current}      }    },    sections[]{      _key,      _type,      _type == "richTextSection" => {        eyebrow,        heading,        content      },      _type == "statsBand" => {        eyebrow,        heading,        useGlobalStats,        stats[]{value, label, source, sourceUrl}      },      _type == "quoteBand" => {        quote{          text,          attributionName,          attributionRole,          person->{name, "slug": slug.current}        }      },      _type == "ctaBand" => {        cta{          heading,          text,          statusChips,          link{            label,            linkType,            external,            internal->{_type, "slug": slug.current}          }        }      },      _type == "processSection" => {        eyebrow,        heading,        intro,        steps[]{_key, title, description}      },      _type == "featureGrid" => {        eyebrow,        heading,        items[]{          _key,          heading,          text,          link{            label,            linkType,            external,            internal->{_type, "slug": slug.current}          }        }      },      _type == "projectGrid" => {        eyebrow,        heading,        mode,        projects[]->{          _id,          title,          "slug": slug.current,          client,          location,          value,          summary,          heroImage{            "alt": alt,            asset->{_id, url, metadata{lqip, dimensions}}          },          "sectors": sectors[]->{title, "slug": slug.current}        }      },      _type == "peopleGrid" => {        eyebrow,        heading,        people[]->{          _id,          name,          "slug": slug.current,          role,          qualifications,          headshot{            "alt": alt,            asset->{_id, url, metadata{lqip, dimensions}}          }        }      },      _type == "serviceMatrix" => {        eyebrow,        heading,        intro      },      _type == "artefactSection" => {        eyebrow,        heading,        intro,        artefact,        refCode      },      _type == "logoStrip" => {        heading,        logos[]{          _key,          "alt": alt,          asset->{_id, url, metadata{lqip, dimensions}}        }      }    },    seo{metaTitle, metaDescription, "ogImage": ogImage.asset->url, noIndex}  }
 export type PageBySlugQueryResult = {
   _id: string;
   title: string | null;
@@ -883,6 +904,24 @@ export type PageBySlugQueryResult = {
     } | null;
   } | null;
   sections: Array<
+    | {
+        _key: string;
+        _type: "artefactSection";
+        eyebrow: string | null;
+        heading: string | null;
+        intro: string | null;
+        artefact:
+          | "cashflowCurve"
+          | "comparisonTable"
+          | "costPlanBuildup"
+          | "engine"
+          | "engineDiagram"
+          | "finalAccountTable"
+          | "terminalMock"
+          | "valuationTable"
+          | null;
+        refCode: string | null;
+      }
     | {
         _key: string;
         _type: "ctaBand";
@@ -1716,7 +1755,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "article"] | order(publishedAt desc){\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    publishedAt,\n    heroImage{\n      "alt": alt,\n      asset->{_id, url, metadata{lqip, dimensions}}\n    },\n    author->{name, "slug": slug.current},\n    "topics": topics[]->{_type, title, "slug": slug.current}\n  }\n': ArticlesIndexQueryResult;
     '\n  *[_type == "article" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    publishedAt,\n    _updatedAt,\n    heroImage{\n      "alt": alt,\n      asset->{_id, url, metadata{lqip, dimensions}}\n    },\n    body,\n    author->{\n      _id,\n      name,\n      "slug": slug.current,\n      role,\n      qualifications,\n      headshot{\n        "alt": alt,\n        asset->{_id, url, metadata{lqip, dimensions}}\n      }\n    },\n    "topics": topics[]->{_type, title, "slug": slug.current},\n    "related": coalesce(\n      related[]->{\n        _id,\n        title,\n        "slug": slug.current,\n        excerpt,\n        publishedAt,\n        heroImage{\n          "alt": alt,\n          asset->{_id, url, metadata{lqip, dimensions}}\n        },\n        author->{name}\n      },\n      *[_type == "article" && slug.current != $slug]\n        | order(publishedAt desc)[0...2]{\n        _id,\n        title,\n        "slug": slug.current,\n        excerpt,\n        publishedAt,\n        heroImage{\n          "alt": alt,\n          asset->{_id, url, metadata{lqip, dimensions}}\n        },\n        author->{name}\n      }\n    ),\n    seo{metaTitle, metaDescription, "ogImage": ogImage.asset->url, noIndex}\n  }\n': ArticleBySlugQueryResult;
     '\n  *[_type == "article" && defined(slug.current)]{"slug": slug.current}\n': ArticleSlugsQueryResult;
-    '\n  *[_type == "page" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    hero{\n      eyebrow,\n      heading,\n      lede,\n      image{\n        "alt": alt,\n        asset->{_id, url, metadata{lqip, dimensions}}\n      },\n      cta{\n        label,\n        linkType,\n        external,\n        internal->{_type, "slug": slug.current}\n      }\n    },\n    sections[]{\n      _key,\n      _type,\n      _type == "richTextSection" => {\n        eyebrow,\n        heading,\n        content\n      },\n      _type == "statsBand" => {\n        eyebrow,\n        heading,\n        useGlobalStats,\n        stats[]{value, label, source, sourceUrl}\n      },\n      _type == "quoteBand" => {\n        quote{\n          text,\n          attributionName,\n          attributionRole,\n          person->{name, "slug": slug.current}\n        }\n      },\n      _type == "ctaBand" => {\n        cta{\n          heading,\n          text,\n          statusChips,\n          link{\n            label,\n            linkType,\n            external,\n            internal->{_type, "slug": slug.current}\n          }\n        }\n      },\n      _type == "processSection" => {\n        eyebrow,\n        heading,\n        intro,\n        steps[]{_key, title, description}\n      },\n      _type == "featureGrid" => {\n        eyebrow,\n        heading,\n        items[]{\n          _key,\n          heading,\n          text,\n          link{\n            label,\n            linkType,\n            external,\n            internal->{_type, "slug": slug.current}\n          }\n        }\n      },\n      _type == "projectGrid" => {\n        eyebrow,\n        heading,\n        mode,\n        projects[]->{\n          _id,\n          title,\n          "slug": slug.current,\n          client,\n          location,\n          value,\n          summary,\n          heroImage{\n            "alt": alt,\n            asset->{_id, url, metadata{lqip, dimensions}}\n          },\n          "sectors": sectors[]->{title, "slug": slug.current}\n        }\n      },\n      _type == "peopleGrid" => {\n        eyebrow,\n        heading,\n        people[]->{\n          _id,\n          name,\n          "slug": slug.current,\n          role,\n          qualifications,\n          headshot{\n            "alt": alt,\n            asset->{_id, url, metadata{lqip, dimensions}}\n          }\n        }\n      },\n      _type == "serviceMatrix" => {\n        eyebrow,\n        heading,\n        intro\n      },\n      _type == "logoStrip" => {\n        heading,\n        logos[]{\n          _key,\n          "alt": alt,\n          asset->{_id, url, metadata{lqip, dimensions}}\n        }\n      }\n    },\n    seo{metaTitle, metaDescription, "ogImage": ogImage.asset->url, noIndex}\n  }\n': PageBySlugQueryResult;
+    '\n  *[_type == "page" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    hero{\n      eyebrow,\n      heading,\n      lede,\n      image{\n        "alt": alt,\n        asset->{_id, url, metadata{lqip, dimensions}}\n      },\n      cta{\n        label,\n        linkType,\n        external,\n        internal->{_type, "slug": slug.current}\n      }\n    },\n    sections[]{\n      _key,\n      _type,\n      _type == "richTextSection" => {\n        eyebrow,\n        heading,\n        content\n      },\n      _type == "statsBand" => {\n        eyebrow,\n        heading,\n        useGlobalStats,\n        stats[]{value, label, source, sourceUrl}\n      },\n      _type == "quoteBand" => {\n        quote{\n          text,\n          attributionName,\n          attributionRole,\n          person->{name, "slug": slug.current}\n        }\n      },\n      _type == "ctaBand" => {\n        cta{\n          heading,\n          text,\n          statusChips,\n          link{\n            label,\n            linkType,\n            external,\n            internal->{_type, "slug": slug.current}\n          }\n        }\n      },\n      _type == "processSection" => {\n        eyebrow,\n        heading,\n        intro,\n        steps[]{_key, title, description}\n      },\n      _type == "featureGrid" => {\n        eyebrow,\n        heading,\n        items[]{\n          _key,\n          heading,\n          text,\n          link{\n            label,\n            linkType,\n            external,\n            internal->{_type, "slug": slug.current}\n          }\n        }\n      },\n      _type == "projectGrid" => {\n        eyebrow,\n        heading,\n        mode,\n        projects[]->{\n          _id,\n          title,\n          "slug": slug.current,\n          client,\n          location,\n          value,\n          summary,\n          heroImage{\n            "alt": alt,\n            asset->{_id, url, metadata{lqip, dimensions}}\n          },\n          "sectors": sectors[]->{title, "slug": slug.current}\n        }\n      },\n      _type == "peopleGrid" => {\n        eyebrow,\n        heading,\n        people[]->{\n          _id,\n          name,\n          "slug": slug.current,\n          role,\n          qualifications,\n          headshot{\n            "alt": alt,\n            asset->{_id, url, metadata{lqip, dimensions}}\n          }\n        }\n      },\n      _type == "serviceMatrix" => {\n        eyebrow,\n        heading,\n        intro\n      },\n      _type == "artefactSection" => {\n        eyebrow,\n        heading,\n        intro,\n        artefact,\n        refCode\n      },\n      _type == "logoStrip" => {\n        heading,\n        logos[]{\n          _key,\n          "alt": alt,\n          asset->{_id, url, metadata{lqip, dimensions}}\n        }\n      }\n    },\n    seo{metaTitle, metaDescription, "ogImage": ogImage.asset->url, noIndex}\n  }\n': PageBySlugQueryResult;
     '\n  *[_type == "page" && defined(slug.current)]{"slug": slug.current}\n': PageSlugsQueryResult;
     '\n  *[_type == "person"] | order(order asc, name asc){\n    _id,\n    name,\n    "slug": slug.current,\n    role,\n    qualifications,\n    isSenior,\n    headshot{\n      "alt": alt,\n      asset->{_id, url, metadata{lqip, dimensions}}\n    }\n  }\n': PeopleIndexQueryResult;
     '\n  *[_type == "person" && slug.current == $slug][0]{\n    _id,\n    name,\n    "slug": slug.current,\n    role,\n    qualifications,\n    email,\n    linkedinUrl,\n    isSenior,\n    headshot{\n      "alt": alt,\n      asset->{_id, url, metadata{lqip, dimensions}}\n    },\n    bio,\n    "specialisms": specialisms[]->{_type, title, "slug": slug.current},\n    "articles": *[_type == "article" && author._ref == ^._id]\n      | order(publishedAt desc)[0...3]{\n      _id,\n      title,\n      "slug": slug.current,\n      excerpt,\n      publishedAt\n    }\n  }\n': PersonBySlugQueryResult;

@@ -242,6 +242,50 @@ export const processSection = defineType({
   },
 });
 
+export const artefactSection = defineType({
+  name: "artefactSection",
+  title: "Artefact section",
+  type: "object",
+  fields: [
+    ...sectionHeader,
+    defineField({ name: "intro", title: "Introduction", type: "text", rows: 3 }),
+    defineField({
+      name: "artefact",
+      title: "Artefact",
+      type: "string",
+      description:
+        "Which hardcoded artefact to render; the illustrative data lives in code, not the CMS.",
+      options: {
+        list: [
+          { title: "Cost plan build-up", value: "costPlanBuildup" },
+          { title: "Interim valuation table", value: "valuationTable" },
+          { title: "Final account table", value: "finalAccountTable" },
+          { title: "Cashflow curve", value: "cashflowCurve" },
+          { title: "Engine diagram", value: "engineDiagram" },
+          { title: "Terminal mock", value: "terminalMock" },
+          { title: "Comparison table", value: "comparisonTable" },
+          { title: "Engine diagram and terminal", value: "engine" },
+        ],
+        layout: "radio",
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "refCode",
+      title: "Reference code override",
+      type: "string",
+      description: "Optional drafting code shown on the artefact (e.g. SCC-CP-001).",
+    }),
+  ],
+  preview: {
+    select: { title: "heading", subtitle: "artefact" },
+    prepare: ({ title, subtitle }) => ({
+      title: title || "Artefact section",
+      subtitle: `Artefact: ${subtitle ?? "unset"}`,
+    }),
+  },
+});
+
 export const logoStrip = defineType({
   name: "logoStrip",
   title: "Logo strip",
@@ -283,6 +327,7 @@ export const sectionTypes = [
   peopleGrid,
   serviceMatrix,
   processSection,
+  artefactSection,
   logoStrip,
 ];
 
